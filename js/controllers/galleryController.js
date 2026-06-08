@@ -14,9 +14,16 @@ function onInit() {
 }
 
 function addEventListeners() {
-    document.querySelector('.line-editor').addEventListener('change', (e) => {
+    document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
+        renderMeme(e)
+    })
+    document.querySelector('.line-text-edit').addEventListener('input', (e) => {
         setLineTxt(e.target.value)
-        renderMeme()
+        renderMeme(e)
+    })
+    document.querySelector('.line-text-edit').addEventListener('change', (e) => {
+        setLineTxt(e.target.value)
+        renderMeme(e)
     })
 
 
