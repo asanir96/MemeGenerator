@@ -1,26 +1,17 @@
 'use strict'
 
-var gImgs = [
-    { id: 1, url: 'images/meme-imgs-various-ratios/2.jpg', keywords: ['funny'] },
-    { id: 2, url: 'images/meme-imgs-various-ratios/003.jpg', keywords: ['funny', 'trump'] }
-]
+
 var gElMemeCanvas
 var gMemeCtx
 
-function onInit() {
-    gElMemeCanvas = document.querySelector('canvas')
-    gMemeCtx = gElMemeCanvas.getContext('2d')
+// function onInit() {
+//     gElMemeCanvas = document.querySelector('canvas')
+//     gMemeCtx = gElMemeCanvas.getContext('2d')
 
-    addEventListeners()
-    renderMeme()
-}
+//     addEventListeners()
+//     renderMeme()
+// }
 
-function addEventListeners() {
-    document.querySelector('.line-editor').addEventListener('change', (e) => {
-        setLineTxt(e.target.value)
-        renderMeme()
-    })
-}
 
 function renderMeme() {
     const meme = getMeme()

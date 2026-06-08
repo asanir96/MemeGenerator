@@ -1,3 +1,7 @@
-*{
-    box-sizing: border-box;
-}
+/*BASE*/
+@import url('base/helpers.css');
+@import url('base/layout.css');
+
+
+/* COMPONENTS */
+@import url('components/gallery-img.css');

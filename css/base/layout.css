@@ -1,0 +1,5 @@
+.gallery{
+    height: 500px;
+    column-width: 210px ;
+    column-count: auto;
+}
