@@ -15,7 +15,7 @@ var gMemeCtx
 
 function renderMeme() {
     const meme = getMeme()
-
+    console.log(meme)
     const img = new Image()
     console.log(img)
     img.onload = () => {
@@ -36,9 +36,9 @@ function renderLines() {
 
     lines.forEach(line => {
         console.log(line.txt)
-        gMemeCtx.font = `${line.size} serif`;
+        gMemeCtx.font = `${line.size}px serif`;
         gMemeCtx.fillStyle = line.color;
-        gMemeCtx.fillText(line.txt, 10, 10)
+        gMemeCtx.fillText(line.txt, 20, 20)
     });
 }
 
@@ -48,3 +48,7 @@ function onDownloadMeme(elLink) {
     elLink.download = `my-meme`
 }
 
+function onChangeFontSize(direction){
+    changeFontSize(direction)
+    renderMeme()
+}

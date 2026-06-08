@@ -20,12 +20,18 @@
         </nav>
     </header>
     <main>
-        <input class="main-search" type="text">
+        <input class="main-search" type="text" placeholder="search">
         <section class="memes"></section>
         <section class="gallery">
         </section>
         <section class="editor hidden">
-            <input class="line-editor" type="text" placeholder="This is the meme text ">
+            <section class="editor-tools">
+                <input class="line-editor" type="text" placeholder="This is the meme text ">
+                <input type="color">
+                <button onclick = "onChangeFontSize(1)">Increase Font</button>
+                <button onclick = "onChangeFontSize(-1)">Decrease Font</button>
+                </select>
+            </section>
             <div class="canvas-containter">
                 <canvas></canvas>
             </div>

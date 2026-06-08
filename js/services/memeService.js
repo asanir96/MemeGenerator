@@ -6,7 +6,7 @@ var gMeme = {
     lines: [{
         txt: 'This is a meme text',
         size: 20,
-        color: 'black'
+        color: 'white'
     }
     ]
 }
@@ -17,9 +17,14 @@ function getMeme() {
 
 function setLineTxt(text) {
 
-    gMeme.lines[0].txt = text
+    gMeme.lines[gMeme.selectedLineIdx].txt = text
 }
 
-function setImg(imgId){
+function setImg(imgId) {
     gMeme.selectedImgId = imgId
+}
+
+function changeFontSize(increment) {
+    gMeme.lines[gMeme.selectedLineIdx].size += increment
+    console.log(gMeme)
 }
