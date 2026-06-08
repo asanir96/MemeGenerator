@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
     <title>Meme Generator</title>
 </head>
+
 <body onload="onInit()">
     <header>
         <div class="icon">Meme Generator</div>
@@ -27,6 +29,7 @@
             <div class="canvas-containter">
                 <canvas></canvas>
             </div>
+            <a href="#" onclick="onDownloadMeme(this)" download="file-name">Download</a>
             <div class="editor"></div>
         </section>
     </main>
@@ -34,4 +37,5 @@
     <script src="js/controllers/galleryController.js"></script>
     <script src="js/controllers/memeController.js"></script>
 </body>
+
 </html>

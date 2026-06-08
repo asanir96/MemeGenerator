@@ -40,8 +40,11 @@ function renderLines() {
         gMemeCtx.fillStyle = line.color;
         gMemeCtx.fillText(line.txt, 10, 10)
     });
-
 }
 
-
+function onDownloadMeme(elLink) {
+    elLink.href = gElMemeCanvas.toDataURL()
+    // Set a name for the downloaded file
+    elLink.download = `my-meme`
+}
 
