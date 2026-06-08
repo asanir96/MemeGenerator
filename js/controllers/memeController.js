@@ -12,7 +12,7 @@ function renderMeme(ev) {
     const img = new Image()
     img.onload = () => {
         renderImg(img)
-        if (ev && (ev.type === 'input' || ev.type === 'focus' || ev.type==='click')) {
+        if (ev && (ev.type === 'input' || ev.type === 'focus' || ev.type === 'click')) {
             renderLineBorders()
         }
         renderLines(meme)
@@ -64,7 +64,7 @@ function onDownloadMeme(elLink) {
     elLink.download = `my-meme`
 }
 
-function onChangeFontSize(ev,direction) {
+function onChangeFontSize(ev, direction) {
     changeFontSize(direction)
     renderMeme(ev)
 }
@@ -80,7 +80,15 @@ function onSwitchLine(ev) {
     clearTextEdit()
 }
 
-function clearTextEdit(){
+function clearTextEdit() {
     document.querySelector('.line-text-edit').value = "";
 
+}
+
+function onAddLine(ev) {
+    const { lines } = getMeme()
+
+    addLine()
+    switchLines(lines.length - 1)
+    renderMeme(ev)
 }

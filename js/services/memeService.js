@@ -40,12 +40,28 @@ function changeFontSize(increment) {
 
 function switchLines(idx) {
     if (idx >= 0) {
-gMeme.selectedLineIdx = idx
+        gMeme.selectedLineIdx = idx
     }
 
 
 
 
-    //     gMeme.selectedLineIdx++
-    if (gMeme.selectedLineIdx > gMeme.lines.length - 1) gMeme.selectedLineIdx = 0
+    // gMeme.selectedLineIdx++
+    // if (gMeme.selectedLineIdx > gMeme.lines.length - 1) gMeme.selectedLineIdx = 0
+}
+
+function addLine() {
+    gMeme.lines.push(_createLine())
+}
+
+function _createLine() {
+    const { lines } = gMeme
+    const prevPos = lines[lines.length - 1].pos
+
+    return {
+        pos: { x: prevPos.x, y: prevPos.y + 40 },
+        txt: 'This is a meme text',
+        size: 20,
+        color: 'white'
+    }
 }
