@@ -38,7 +38,14 @@ function changeFontSize(increment) {
     console.log(gMeme)
 }
 
-function switchLines() {
-    gMeme.selectedLineIdx++
+function switchLines(idx) {
+    if (idx >= 0) {
+gMeme.selectedLineIdx = idx
+    }
+
+
+
+
+    //     gMeme.selectedLineIdx++
     if (gMeme.selectedLineIdx > gMeme.lines.length - 1) gMeme.selectedLineIdx = 0
 }

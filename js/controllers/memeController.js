@@ -5,6 +5,7 @@ var gElMemeCanvas
 var gMemeCtx
 var gLinPos = { x: 20, y: 20 }
 var gLineIdx
+var gSelectedLineIdx = 0
 
 function renderMeme(ev) {
     const meme = getMeme()
@@ -68,8 +69,13 @@ function onChangeFontSize(ev,direction) {
     renderMeme(ev)
 }
 
-function onSwitchLine(ev){
-    switchLines()
+function onSwitchLine(ev) {
+    const meme = getMeme()
+    gSelectedLineIdx = meme.selectedLineIdx    
+    gSelectedLineIdx++
+
+    if (gSelectedLineIdx > meme.lines.length - 1) gSelectedLineIdx = 0
+    switchLines(gSelectedLineIdx)
     renderMeme(ev)
     clearTextEdit()
 }
