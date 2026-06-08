@@ -1,8 +1,8 @@
 'use strict'
 
 var gImgs = [
-    { id: 1, url: 'images/meme-imgs (various aspect ratios)/2.jpg', keywords: ['funny'] },
-    { id: 2, url: 'images/meme-imgs (various aspect ratios)/003.jpg', keywords: ['funny', 'trump'] }
+    { id: 1, url: 'images/meme-imgs-various-ratios/2.jpg', keywords: ['funny'] },
+    { id: 2, url: 'images/meme-imgs-various-ratios/003.jpg', keywords: ['funny', 'trump'] }
 ]
 var gElMemeCanvas
 var gMemeCtx
