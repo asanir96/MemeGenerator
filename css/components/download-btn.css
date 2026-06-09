@@ -1,3 +1,12 @@
 .download-btn{
-    grid-column: 2;
+    grid-column: 1;
+    align-self: end;
+    justify-self: start;
+    color:white;
+    font-size: 18px;
+    padding-inline:35px;
+    padding-block:1rem;
+    text-decoration:none;
+    background-color: var(---clr-txt-base);
+    border-radius: 50px;
 }
