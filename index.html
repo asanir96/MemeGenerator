@@ -34,10 +34,10 @@
                 <button class="tools-add-line" onclick = "onSwitchLine(event)">Switch a line</button>
                 </select>
             </section>
-            <div class="canvas-containter">
+            <div  onmousemove="onHighlightLine(event)" class="canvas-container">
                 <canvas></canvas>
             </div>
-            <a href="#" onclick="onDownloadMeme(this)" download="file-name">Download</a>
+            <a href="#" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
             <div class="editor"></div>
         </section>
     </main>

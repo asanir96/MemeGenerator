@@ -13,21 +13,12 @@ function onInit() {
     addEventListeners()
 }
 
-function addEventListeners() {
-    document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
-        renderMeme(e)
-    })
-    document.querySelector('.line-text-edit').addEventListener('input', (e) => {
-        setLineTxt(e.target.value)
-        renderMeme(e)
-    })
-    document.querySelector('.line-text-edit').addEventListener('change', (e) => {
-        setLineTxt(e.target.value)
-        renderMeme(e)
-    })
-
-
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElMemeCanvas.width = elContainer.clientWidth
 }
+
+
 function renderGallery() {
     const elGallery = document.querySelector('.gallery')
 
@@ -46,5 +37,6 @@ function onImgSelect(imgId) {
 function showEditor() {
     document.querySelector('.gallery').classList.add('hidden')
     document.querySelector('.editor').classList.remove('hidden')
+    resizeCanvas()
     renderMeme()
 }

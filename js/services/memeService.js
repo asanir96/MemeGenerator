@@ -3,6 +3,7 @@
 var gMeme = {
     selectedImgId: 1,
     selectedLineIdx: 0,
+    isLineSelected: false,
     lines: [
         {
             pos: { x: 20, y: 20 },
@@ -11,13 +12,21 @@ var gMeme = {
             color: 'white'
         },
         {
-            pos: { x: 20, y: 60 },
+            pos: { x: 20, y: 80 },
             txt: 'This is a meme text',
             size: 20,
             color: 'white'
         }
 
     ]
+}
+function createMeme() {
+    gMeme = {
+        selectedImgId: 1,
+        selectedLineIdx: 0,
+        lines: []
+    }
+    gMeme.push(_createLine())
 }
 
 function getMeme() {
@@ -35,19 +44,19 @@ function setImg(imgId) {
 
 function changeFontSize(increment) {
     gMeme.lines[gMeme.selectedLineIdx].size += increment
-    console.log(gMeme)
+    console.log(gMeme.lines[gMeme.selectedLineIdx].size)
 }
 
 function switchLines(idx) {
     if (idx >= 0) {
         gMeme.selectedLineIdx = idx
     }
+}
 
+function setLineSelected(bool){
 
+        gMeme.isLineSelected = bool
 
-
-    // gMeme.selectedLineIdx++
-    // if (gMeme.selectedLineIdx > gMeme.lines.length - 1) gMeme.selectedLineIdx = 0
 }
 
 function addLine() {
@@ -56,12 +65,18 @@ function addLine() {
 
 function _createLine() {
     const { lines } = gMeme
-    const prevPos = lines[lines.length - 1].pos
-
-    return {
-        pos: { x: prevPos.x, y: prevPos.y + 40 },
+    const line = {
         txt: 'This is a meme text',
         size: 20,
         color: 'white'
     }
+
+    if (lines.length === 0) {
+        line.pos = { x: 20, y: 20 }
+    } else {
+        const prevPos = lines[lines.length - 1].pos
+        line.pos = { x: prevPos.x, y: prevPos.y + 60 }
+    }
+
+    return line
 }

@@ -3,3 +3,12 @@
     column-width: 210px ;
     column-count: auto;
 }
+
+.canvas-container{
+    width:60%;
+    margin:auto
+}
+
+.canvas-container canvas{
+    /* width:80% */
+}
