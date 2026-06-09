@@ -26,12 +26,12 @@
         </section>
         <section class="editor hidden">
             <section class="editor-tools">
-                <input class="line-text-edit" type="text" placeholder="This is the meme text ">
-                <input type="color">
-                <button class="tools-font-size-btn" onclick = "onChangeFontSize(event,1)">Increase Font</button>
-                <button class="tools-font-size-btn" onclick = "onChangeFontSize(event,-1)">Decrease Font</button>
-                <button class="tools-add-line" onclick = "onAddLine(event)">Add a line</button>
-                <button class="tools-add-line" onclick = "onSwitchLine(event)">Switch a line</button>
+                <input class="tool line-text-edit" type="text" placeholder="This is the meme text " >
+                <input type="tool color">
+                <button class="tool tools-font-size-btn" onclick = "onChangeFontSize(event,1)">Increase Font</button>
+                <button class="tool tools-font-size-btn" onclick = "onChangeFontSize(event,-1)">Decrease Font</button>
+                <button class="tool tools-add-line" onclick = "onAddLine(event)">Add a line</button>
+                <button class="tool tools-add-line" onclick = "onSwitchLine(event)">Switch a line</button>
                 </select>
             </section>
             <div  onmousemove="onHighlightLine(event)" class="canvas-container">

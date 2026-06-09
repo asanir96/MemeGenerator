@@ -11,22 +11,32 @@ var gIsEditMode = false
 var gIsHighlightMode = false
 
 function addEventListeners() {
+    const elEditor = document.querySelector('.editor')
+    elEditor.addEventListener('click', (e) => {
+        if (e.target !== gElMemeCanvas &&
+            !e.target.classList.contains('tool')) {
+            gIsEditMode = false
+            renderMeme(e)
+            clearTextEdit()
+        }
+    })
     document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
+        gIsEditMode = true
         renderMeme(e)
     })
     document.querySelector('.line-text-edit').addEventListener('input', (e) => {
         setLineTxt(e.target.value)
         renderMeme(e)
+
     })
-    document.querySelector('.line-text-edit').addEventListener('change', (e) => {
-        setLineTxt(e.target.value)
-        renderMeme(e)
-        console.log(e.type)
+
+    gElMemeCanvas.addEventListener('mousedown', (e) => onDown(e))
+    document.querySelector('.line-text-edit').addEventListener('blur', (e) => {
         gIsEditMode = false
-
+        renderMeme(e)
+        clearTextEdit()
     })
 
-    document.querySelector('canvas').addEventListener('mousedown', (e) => onDown(e))
     document.querySelector('canvas').addEventListener('mouseleave', (e) => gCurrLineIdx = -1
     )
 
@@ -132,15 +142,15 @@ function onAddLine(ev) {
 
 function onDown(ev) {
     if (gCurrLineIdx < 0) {
-        console.log('hi')
         gIsEditMode = false
         renderMeme()
     } else {
+        console.log('hi')
         gIsEditMode = true
         switchLines(gCurrLineIdx)
+        // renderMeme()
         clearTextEdit()
     }
-    renderMeme()
 }
 
 function getTextWidth(line) {
@@ -166,6 +176,6 @@ function onHighlightLine(ev) {
 
     gCurrLineIdx = lines.findIndex(line => isMouseOnLine(ev, line))
     renderMeme(ev)
-    clearTextEdit()
+    // clearTextEdit()
 
 }
