@@ -10,7 +10,7 @@
 </head>
 
 <body onload="onInit()" class="main-layout">
-    <header>
+    <header class="header-layout">
         <div class="logo"><img src="images/logo/aeae63780efb67018fae1f37db1aa4731bc681a9.png" alt=""></div>
         <nav class="main-nav">
             <ul class="clean-list">
@@ -21,9 +21,12 @@
         </nav>
     </header>
     <main>
-        <input class="main-search" type="text" placeholder="search">
-        <section class="memes"></section>
+        <section class="memes hidden"></section>
         <section class="gallery">
+            <fieldset>
+                <input class="main-search clean-input" type="text" placeholder="search">
+            </fieldset>
+            <section class='gallery-container'></section>
         </section>
         <section class="editor hidden editor-layout">
             <aside>

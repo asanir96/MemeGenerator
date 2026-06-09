@@ -1,14 +1,42 @@
-.gallery {
-    height: 500px;
-    column-width: 210px;
-    column-count: auto;
-}
+
+
 
 .main-layout {
     display: grid;
+    grid-template-columns: minmax(1rem,30px) minmax(min-content,auto) min-content minmax(1rem,30px);
     grid-template-rows: min-content;
     grid-auto-rows: auto;
     grid-auto-flow: row;
+}
+
+main{
+    display: grid;
+    grid-template-columns: subgrid;
+    /* grid-auto-rows: min-content; */
+}
+.gallery{
+    grid-column: 2/4;
+}
+.gallery fieldset{
+    padding-inline:0;
+    margin-block: 30px;
+    width: 100%;
+}
+.gallery>fieldset>input{
+    padding:10px;
+    width: 100%;
+    border-radius: 50px;
+    border: 1px solid #EBEBEB
+}
+.header-layout{
+    display: grid;
+    grid-template-columns: subgrid;
+}
+.header-layout>.logo{
+    grid-column: 2;
+}
+.header-layout>nav{
+    grid-column: 3;
 }
 
 .canvas-container {
@@ -26,6 +54,7 @@ aside {
 }
 
 .editor-layout {
+    grid-column: 1/-1;
     height:100%;
     display: grid;
     grid-template-columns: auto min-content;

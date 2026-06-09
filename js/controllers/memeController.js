@@ -71,13 +71,39 @@ function renderLineBorders() {
             const metrics = gMemeCtx.measureText(line.txt);
             const textWidth = metrics.width;
 
-            gMemeCtx.strokeStyle = "red";
+            gMemeCtx.strokeStyle = "grey";
+            
+            gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
+            gMemeCtx.lineWidth = 0.5;
+            const padding = 10;
+
+            gMemeCtx.strokeRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
+            gMemeCtx.fillRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
+        }
+    })
+
+}
+function renderLineBorders2() {
+    const { lines, selectedLineIdx } = getMeme()
+
+    lines.forEach((line, idx) => {
+        if ((idx === gCurrLineIdx) ||
+            (idx === selectedLineIdx && gIsEditMode)) {
+
+            gMemeCtx.font = `${line.size}px serif`;
+
+            const metrics = gMemeCtx.measureText(line.txt);
+            const textWidth = metrics.width;
+
+            gMemeCtx.strokeStyle = "grey";
+            gMemeCtx.setLineDash(pattern);
+
             gMemeCtx.fillStyle = 'rgb(0 0 0 / 30%)'
             gMemeCtx.lineWidth = 0.5;
             const padding = 10;
 
-            gMemeCtx.strokeRect(line.pos.x - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
-            gMemeCtx.fillRect(line.pos.x - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
+            gMemeCtx.strokeRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
+            gMemeCtx.fillRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
         }
     })
 
@@ -95,9 +121,9 @@ function renderLines() {
 
         gMemeCtx.strokeStyle = 'black'
         gMemeCtx.lineWidth = 4
-        
+
         gMemeCtx.fillStyle = line.color;
-        
+
         gMemeCtx.strokeText(line.txt, line.pos.x, line.pos.y)
         gMemeCtx.fillText(line.txt, line.pos.x, line.pos.y)
     });
@@ -167,21 +193,22 @@ function getTextWidth(line) {
 
 function isMouseOnLine(ev, line) {
     const { offsetX, offsetY } = ev
-
+    const textWidth = getTextWidth(line)
     return (
-        offsetX >= line.pos.x &&
-        offsetX <= line.pos.x + getTextWidth(line) &&
+        offsetX >= line.pos.x - textWidth / 2 &&
+        offsetX <= line.pos.x + textWidth &&
         offsetY >= line.pos.y &&
         offsetY <= line.pos.y + line.size)
 }
 
 function onHighlightLine(ev) {
+    renderMeme()
     const { lines, selectedLineIdx, isLineSelected } = getMeme()
     if (isLineSelected) return
     gHighlightedLineIdx = selectedLineIdx
 
     gCurrLineIdx = lines.findIndex(line => isMouseOnLine(ev, line))
-    renderMeme(ev)
+    renderLineBorders(ev)
     // clearTextEdit()
 
 }

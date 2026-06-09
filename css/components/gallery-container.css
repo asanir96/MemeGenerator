@@ -1,0 +1,10 @@
+.gallery-container {
+    column-width: 210px;
+    column-gap: 25px;
+    column-count: auto;
+}
+
+.gallery-container{
+    height: 100%;
+}
+

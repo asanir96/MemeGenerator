@@ -1,7 +1,10 @@
 .main-nav>ul{
     display:grid;
-    grid-template-columns: auto;
+    justify-self: end;
+    grid-template-columns: repeat(3,min-content);
+    grid-auto-columns: min-content;
     grid-auto-flow: column;
+
 }
 
 .main-nav button{
@@ -11,4 +14,8 @@
     padding:25px;
     font-size: 16px;
     color:#989898;
+}
+
+.main-nav>ul>li{
+    width: fit-content;
 }

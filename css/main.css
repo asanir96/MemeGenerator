@@ -9,6 +9,7 @@
 
 
 /* COMPONENTS */
+@import url('components/gallery-container.css');
 @import url('components/gallery-img.css');
 @import url('components/main-nav.css');
 @import url('components/logo.css');

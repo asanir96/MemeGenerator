@@ -12,3 +12,8 @@
     border:none;
     background-color: transparent;
 }
+
+input::placeholder{
+  font-style: italic;
+  color:#989898;
+}   
