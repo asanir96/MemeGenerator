@@ -11,15 +11,13 @@ var gIsEditMode = false
 var gIsHighlightMode = false
 
 function addEventListeners() {
+    const elLineEditor = document.querySelector('.line-editor')
     const elEditor = document.querySelector('.editor')
-    elEditor.addEventListener('click', (e) => {
-        if (e.target !== gElMemeCanvas &&
-            !e.target.classList.contains('tool')) {
-            gIsEditMode = false
-            renderMeme(e)
-            clearTextEdit()
-        }
-    })
+
+    elEditor.addEventListener('click', onStopEdit)
+
+    elLineEditor.addEventListener('mouseleave', addStopEditListeners)
+    elLineEditor.addEventListener('mouseover', (e) => onRemoveListeners(e))
     document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
         gIsEditMode = true
         renderMeme(e)
@@ -31,24 +29,60 @@ function addEventListeners() {
     })
 
     gElMemeCanvas.addEventListener('mousedown', (e) => onDown(e))
-    document.querySelector('.line-text-edit').addEventListener('blur', (e) => {
-        gIsEditMode = false
-        renderMeme(e)
-        clearTextEdit()
-    })
+    document.querySelector('.line-text-edit').addEventListener('blur', onTextEditBlur)
 
-    document.querySelector('canvas').addEventListener('mouseleave', (e) => gCurrLineIdx = -1
+    gElMemeCanvas.addEventListener('mousemove', (e) => {
+        gCurrLineIdx = -1
+        elEditor.removeEventListener('click', onStopEdit)
+        document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
+    }
     )
+
+    gElMemeCanvas.addEventListener('mouseleave', addStopEditListeners)
+
+
 
 }
 
+function onRemoveListeners(ev) {
+    const child = ev.target.closest('button, input')
+    if (!child) return
+    
+    console.log('child', child)
+    document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
+    document.querySelector('.editor').removeEventListener('click', onStopEdit)
+}
+
+function addStopEditListeners() {
+    document.querySelector('.line-text-edit').addEventListener('blur', onTextEditBlur)
+    document.querySelector('.editor').addEventListener('click', onStopEdit)
+
+}
+
+function onStopEdit() {
+    console.log('changing gIsEdit')
+    gCurrLineIdx = -1
+    gIsEditMode = false
+    renderMeme()
+    clearTextEdit()
+}
+function onTextEditBlur() {
+    console.log('changing gIsEdit')
+
+    gIsEditMode = false
+    renderMeme()
+    clearTextEdit()
+}
 function renderMeme(ev) {
+    console.log(gIsEditMode)
     const meme = getMeme()
     const img = new Image()
     img.onload = () => {
         renderImg(img)
-        renderLineBorders()
-        renderLines(meme)
+        if (gCurrLineIdx >= 0 || gIsEditMode) renderHighlightedLines()
+        else renderLines(meme)
+        // renderLineBorders()
+        // renderLines(meme)
     }
 
     img.src = gImgs.find(img => img.id === meme.selectedImgId).url
@@ -66,13 +100,15 @@ function renderLineBorders() {
         if ((idx === gCurrLineIdx) ||
             (idx === selectedLineIdx && gIsEditMode)) {
 
-            gMemeCtx.font = `${line.size}px serif`;
+            gMemeCtx.font = `${line.size}px impact`;
 
             const metrics = gMemeCtx.measureText(line.txt);
             const textWidth = metrics.width;
+            gMemeCtx.strokeStyle = 'black'
+            gMemeCtx.lineWidth = 4
 
             gMemeCtx.strokeStyle = "grey";
-            
+
             gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
             gMemeCtx.lineWidth = 0.5;
             const padding = 10;
@@ -129,6 +165,10 @@ function renderLines() {
     });
 }
 
+function renderHighlightedLines() {
+    renderLineBorders()
+    renderLines()
+}
 function onDownloadMeme(elLink, ev) {
     if (gIsEditMode) {
         ev.preventDefault()
@@ -174,6 +214,8 @@ function onAddLine(ev) {
 
 function onDown(ev) {
     if (gCurrLineIdx < 0) {
+        console.log('changing gIsEdit')
+
         gIsEditMode = false
         renderMeme()
     } else {
@@ -186,7 +228,7 @@ function onDown(ev) {
 }
 
 function getTextWidth(line) {
-    gMemeCtx.font = `${line.size}px serif`
+    gMemeCtx.font = `${line.size}px impact`
     const metrics = gMemeCtx.measureText(line.txt);
     return metrics.width;
 }
@@ -208,7 +250,7 @@ function onHighlightLine(ev) {
     gHighlightedLineIdx = selectedLineIdx
 
     gCurrLineIdx = lines.findIndex(line => isMouseOnLine(ev, line))
-    renderLineBorders(ev)
+    // renderLineBorders(ev)
     // clearTextEdit()
 
 }
