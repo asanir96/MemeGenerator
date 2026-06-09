@@ -17,3 +17,8 @@ input::placeholder{
   font-style: italic;
   color:#989898;
 }   
+
+
+.selected{
+    color:var(---clr-txt-base);
+}

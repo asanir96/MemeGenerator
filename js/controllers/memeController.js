@@ -11,13 +11,22 @@ var gIsEditMode = false
 var gIsHighlightMode = false
 
 function addEventListeners() {
-    const elLineEditor = document.querySelector('.line-editor')
     const elEditor = document.querySelector('.editor')
-
+    const elLineEditor = elEditor.querySelector('.line-editor')
+    const elEditorActions = elEditor.querySelector('.editor-actions')
+    const elBackBtn = elEditor.querySelector('.editor-back-btn')
     elEditor.addEventListener('click', onStopEdit)
 
     elLineEditor.addEventListener('mouseleave', addStopEditListeners)
     elLineEditor.addEventListener('mouseover', (e) => onRemoveListeners(e))
+
+    elEditorActions.addEventListener('mouseleave', addStopEditListeners)
+    elEditorActions.addEventListener('mouseover', (e) => onRemoveListeners(e))
+    
+    elBackBtn.addEventListener('mouseleave', addStopEditListeners)
+    elBackBtn.addEventListener('mouseover', (e) => onRemoveListeners(e))
+
+
     document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
         gIsEditMode = true
         renderMeme(e)
@@ -256,4 +265,10 @@ function onHighlightLine(ev) {
     // renderLineBorders(ev)
     // clearTextEdit()
 
+}
+
+function onOpenGallery() {
+    console.log('hi')
+    document.querySelector('.editor').classList.add('hidden')
+    document.querySelector('.gallery').classList.remove('hidden')
 }

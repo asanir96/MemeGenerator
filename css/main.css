@@ -9,7 +9,10 @@
 
 
 /* COMPONENTS */
+@import url('components/editor-back-btn.css');
+@import url('components/download-btn.css');
 @import url('components/gallery-container.css');
+@import url('components/editor-canvas-container.css');
 @import url('components/gallery-img.css');
 @import url('components/main-nav.css');
 @import url('components/logo.css');

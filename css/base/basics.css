@@ -23,25 +23,40 @@ header {
     border-bottom: 1px #DBDBDB solid;
 }
 
+input:focus {
+    outline: none;
+}
+
 main {
     grid-column: 1/-1;
     background-color: var(---clr-base-1)
 }
 
-.editor{
+.editor {
     background-color: white;
 }
+
 .editor aside {
-    grid-row: 1/-1;
+    grid-row: 1/3;
     background-color: var(---clr-base-1);
 }
 
-.main-search{
-padding-inline-start: 2rem;
+.main-search {
+    padding-inline-start: 2rem;
 }
+
 .canvas-container {
     width: 750px;
     ;
+}
+
+button {
+
+    cursor: pointer;
+}
+
+button:hover{
+    color:#FF9826;
 }
 
 h2 {

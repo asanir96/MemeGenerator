@@ -15,7 +15,7 @@
         <nav class="main-nav">
             <ul class="clean-list">
                 <li><button class="clean-btn">Memes</button></li>
-                <li><button class="clean-btn">Gallery</button></li>
+                <li><button class="clean-btn selected">Gallery</button></li>
                 <li><button class="clean-btn">About</button></li>
             </ul>
         </nav>
@@ -29,6 +29,12 @@
             <section class='gallery-container'></section>
         </section>
         <section class="editor hidden editor-layout">
+            <button class="editor-back-btn" onclick="onOpenGallery()">Back to the gallery</button>
+
+            <div onmousemove="onHighlightLine(event)" class="canvas-container">
+                <canvas></canvas>
+            </div>
+
             <aside>
                 <section class="editor-tools editor-tools-layout">
                     <h2>Edit Text Line</h2>
@@ -69,18 +75,16 @@
 
                             <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
                                 <i class="fa-solid fa-pencil"></i>
-                             </button>
+                            </button>
                         </div>
 
                     </fieldset>
+                    <a href="#" class="download-btn" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
+                    
                 </section>
-                <a href="#" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
-
             </aside>
-            <div onmousemove="onHighlightLine(event)" class="canvas-container">
-                <canvas></canvas>
-            </div>
-            <div class="editor"></div>
+
+
         </section>
     </main>
     <script src="js/services/memeService.js"></script>
