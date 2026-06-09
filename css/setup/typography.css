@@ -2,4 +2,10 @@
     font-family: roboto;
     src: url(/fonts/Roboto-Medium.ttf);
 }
+@font-face {
+    font-family: impact;
+    src: url(/fonts/impact.ttf);
+}
+
+
 

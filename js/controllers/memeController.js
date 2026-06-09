@@ -86,13 +86,19 @@ function renderLineBorders() {
 function renderLines() {
     const { lines } = getMeme()
     lines.forEach(line => {
-        gMemeCtx.font = `${line.size}px serif`;
+        gMemeCtx.font = `${line.size}px impact`;
+        gMemeCtx.textAlign = "center";
+        gMemeCtx.textBaseline = "top";
 
         const metrics = gMemeCtx.measureText(line.txt);
         const textWidth = metrics.width;
+
+        gMemeCtx.strokeStyle = 'black'
+        gMemeCtx.lineWidth = 4
+        
         gMemeCtx.fillStyle = line.color;
-        gMemeCtx.textAlign = "left";
-        gMemeCtx.textBaseline = "top";
+        
+        gMemeCtx.strokeText(line.txt, line.pos.x, line.pos.y)
         gMemeCtx.fillText(line.txt, line.pos.x, line.pos.y)
     });
 }

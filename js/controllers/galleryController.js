@@ -40,4 +40,5 @@ function showEditor() {
     document.querySelector('.editor').classList.remove('hidden')
     resizeCanvas()
     renderMeme()
+    console.log(gElMemeCanvas.height)
 }
