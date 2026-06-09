@@ -1,7 +1,16 @@
+@import url('setup/vars.css');
+@import url('setup/typography.css');
+
+
 /*BASE*/
+@import url('base/basics.css');
 @import url('base/helpers.css');
 @import url('base/layout.css');
 
 
 /* COMPONENTS */
 @import url('components/gallery-img.css');
+@import url('components/main-nav.css');
+@import url('components/logo.css');
+@import url('components/font-size-btn.css');
+@import url('components/line-editor.css');

@@ -1,0 +1,7 @@
+.logo{
+    display: grid;
+    align-items: center;
+}
+.logo>img{
+    width: 152px;;
+}

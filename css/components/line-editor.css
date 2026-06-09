@@ -1,0 +1,17 @@
+.line-editor {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #EBEBEB;
+    border-radius: 15px;
+    width: 486px;
+    background-color: white;
+    grid-column: 1/-1;
+}
+
+.line-editor>* {
+}
+
+.line-editor>.line-text-edit {
+    margin: 20px;
+    border: 0;
+}

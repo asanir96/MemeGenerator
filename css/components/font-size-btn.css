@@ -1,0 +1,20 @@
+.line-editor .tools-font-size-btn{
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+    position: relative;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+
+.font-size-btn-dir{
+    position: absolute;
+    padding: 0;
+    top:-3px;
+    right:-4px;
+    font-weight: 500;
+    width:7px;
+
+}

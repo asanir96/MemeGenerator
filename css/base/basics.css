@@ -1,0 +1,38 @@
+*{
+    box-sizing: border-box;
+}
+html{
+    font-family: roboto;
+    height: 100vh;
+}
+body{
+    background-color: #FFFFFF;
+    height: 100%;
+}
+header{
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: min-content;
+    border-bottom: 1px #DBDBDB solid;
+}
+
+.editor aside{
+    grid-row: 1/-1;
+    background-color: var(---clr-base-1);
+}
+
+.canvas-container{
+    width: 750px;;
+}
+
+h2{
+    color:var(---clr-txt-1);
+    display: grid;
+
+    margin:0;
+    font-weight: 400;
+    font-size:24px;
+}
+
+

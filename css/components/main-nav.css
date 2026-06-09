@@ -1,0 +1,14 @@
+.main-nav>ul{
+    display:grid;
+    grid-template-columns: auto;
+    grid-auto-flow: column;
+}
+
+.main-nav button{
+    display: grid;
+    align-content: center;
+    height: 50px;
+    padding:25px;
+    font-size: 16px;
+    color:#989898;
+}

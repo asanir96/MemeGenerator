@@ -5,17 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/3f74b84e42.js" crossorigin="anonymous"></script>
     <title>Meme Generator</title>
 </head>
 
-<body onload="onInit()">
+<body onload="onInit()" class="main-layout">
     <header>
-        <div class="icon">Meme Generator</div>
+        <div class="logo"><img src="images/logo/aeae63780efb67018fae1f37db1aa4731bc681a9.png" alt=""></div>
         <nav class="main-nav">
-            <ul>
-                <li><button>Memes</button></li>
-                <li><button>Gallery</button></li>
-                <li><button>About</button></li>
+            <ul class="clean-list">
+                <li><button class="clean-btn">Memes</button></li>
+                <li><button class="clean-btn">Gallery</button></li>
+                <li><button class="clean-btn">About</button></li>
             </ul>
         </nav>
     </header>
@@ -24,20 +25,58 @@
         <section class="memes"></section>
         <section class="gallery">
         </section>
-        <section class="editor hidden">
-            <section class="editor-tools">
-                <input class="tool line-text-edit" type="text" placeholder="This is the meme text " >
-                <input type="tool color">
-                <button class="tool tools-font-size-btn" onclick = "onChangeFontSize(event,1)">Increase Font</button>
-                <button class="tool tools-font-size-btn" onclick = "onChangeFontSize(event,-1)">Decrease Font</button>
-                <button class="tool tools-add-line" onclick = "onAddLine(event)">Add a line</button>
-                <button class="tool tools-add-line" onclick = "onSwitchLine(event)">Switch a line</button>
-                </select>
-            </section>
-            <div  onmousemove="onHighlightLine(event)" class="canvas-container">
+        <section class="editor hidden editor-layout">
+            <aside>
+                <section class="editor-tools editor-tools-layout">
+                    <h2>Edit Text Line</h2>
+                    <div class="editor-actions">
+                        <button class="tool tools-add-line" onclick="onSwitchLine(event)"><i
+                                class="fa-solid fa-up-down"></i></button>
+                        <button class="tool tools-add-line" onclick="onAddLine(event)"><i
+                                class="fa-regular fa-square-plus"></i></button>
+                        <button class="tool tools-delete-line"><i class="fa-regular fa-trash-can"></i></button>
+                    </div>
+                    <fieldset class="line-editor">
+
+                        <input class="tool line-text-edit" type="text" placeholder="This is the meme text ">
+
+                        <div class="text-options">
+                            <input type="color" class="tool">
+                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,1)">
+                                a
+                                <i class="fa-solid fa-plus font-size-btn-dir"></i>
+                            </button>
+                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                                a
+                                <i class="fa-solid fa-minus  font-size-btn-dir"></i>
+                            </button>
+                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                                <i class="fa-solid fa-align-left"></i>
+                            </button>
+                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                                <i class="fa-solid fa-align-justify"></i>
+                            </button>
+                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                                <i class="fa-solid fa-align-right"></i>
+                            </button>
+                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                                a
+                                <i class="fa-solid fa-minus  font-size-btn-dir"></i>
+                            </button>
+
+                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                                <i class="fa-solid fa-pencil"></i>
+                             </button>
+                        </div>
+
+                    </fieldset>
+                </section>
+                <a href="#" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
+
+            </aside>
+            <div onmousemove="onHighlightLine(event)" class="canvas-container">
                 <canvas></canvas>
             </div>
-            <a href="#" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
             <div class="editor"></div>
         </section>
     </main>
