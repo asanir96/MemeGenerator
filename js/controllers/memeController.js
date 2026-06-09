@@ -32,6 +32,8 @@ function addEventListeners() {
     document.querySelector('.line-text-edit').addEventListener('blur', onTextEditBlur)
 
     gElMemeCanvas.addEventListener('mousemove', (e) => {
+        console.log(gMemeCtx)
+
         gCurrLineIdx = -1
         elEditor.removeEventListener('click', onStopEdit)
         document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
@@ -45,9 +47,10 @@ function addEventListeners() {
 }
 
 function onRemoveListeners(ev) {
+
     const child = ev.target.closest('button, input')
     if (!child) return
-    
+
     console.log('child', child)
     document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
     document.querySelector('.editor').removeEventListener('click', onStopEdit)
@@ -238,7 +241,7 @@ function isMouseOnLine(ev, line) {
     const textWidth = getTextWidth(line)
     return (
         offsetX >= line.pos.x - textWidth / 2 &&
-        offsetX <= line.pos.x + textWidth &&
+        offsetX <= line.pos.x + textWidth / 2 &&
         offsetY >= line.pos.y &&
         offsetY <= line.pos.y + line.size)
 }

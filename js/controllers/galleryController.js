@@ -30,7 +30,7 @@ var gImgs = [
 function onInit() {
     gElMemeCanvas = document.querySelector('canvas')
     gMemeCtx = gElMemeCanvas.getContext('2d')
-
+    renderMeme()
     renderGallery()
     addEventListeners()
 }
@@ -60,7 +60,7 @@ function showEditor() {
     document.querySelector('.gallery').classList.add('hidden')
     document.querySelector('.main-search').classList.add('hidden')
     document.querySelector('.editor').classList.remove('hidden')
-    renderMeme()
     resizeCanvas()
+    renderMeme()
 
 }
