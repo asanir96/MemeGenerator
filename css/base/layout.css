@@ -64,6 +64,14 @@ aside .download-btn {
 .header-layout>nav {
     grid-column: 3;
 }
+.main-nav>ul{
+    display:grid;
+    justify-self: end;
+    grid-template-columns: repeat(3,min-content);
+    grid-auto-columns: min-content;
+    grid-auto-flow: column;
+
+}
 
 .canvas-container {
     grid-column: 1;

@@ -1,18 +1,9 @@
-.main-nav>ul{
-    display:grid;
-    justify-self: end;
-    grid-template-columns: repeat(3,min-content);
-    grid-auto-columns: min-content;
-    grid-auto-flow: column;
-
-}
-
 .main-nav button{
     display: grid;
     align-content: center;
     height: 50px;
-    padding:25px;
-    font-size: 16px;
+    padding-inline:1.5625em;
+    font-size: 1rem;
 }
 
 .main-nav button:not(.selected){

@@ -13,10 +13,6 @@
     list-style-type: none;
 }
 
-.clean-btn {
-    border: none;
-    background-color: transparent;
-}
 
 input::placeholder {
     font-style: italic;
