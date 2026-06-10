@@ -1,0 +1,22 @@
+.download-btn {
+    opacity: 1;
+    
+    width: fit-content;
+    
+    padding-inline: 1.94444444444em;
+    padding-block: 0.88888888888em;
+    border-radius: 50px;
+
+    font-size: 1.125rem;
+    color: white;
+    background-color: var(---clr-txt-base);
+    
+    text-decoration: none;
+    transition: 200ms ease;
+}
+
+.download-btn.disabled {
+    background-color: grey;
+    opacity: 0.2;
+    cursor: not-allowed;
+}

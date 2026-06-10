@@ -1,13 +1,10 @@
 .editor-back-btn{
-    font-family: 'roboto';
-    font-size: 14px;
+    font-size: 0.875em;
     font-weight: 100;
 
-    background-color: transparent;
-    margin-block-start: 24px;
-    margin-inline-start: 26px;
-    border: none;
-    color:#b6b4b4;
+    margin-block: 1.5em;
+    margin-inline-start: 1.625em;
+    color:var(---clr-txt-2);
     width:fit-content;
     grid-column: 1;
     grid-row:1;

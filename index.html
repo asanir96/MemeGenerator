@@ -10,7 +10,7 @@
 </head>
 
 <body onload="onInit()" class="main-layout">
-    <header class="header-layout">
+    <header class="header-layout subgrid">
         <div class="logo"><img src="images/logo/aeae63780efb67018fae1f37db1aa4731bc681a9.png" alt=""></div>
         <nav class="main-nav">
             <ul class="clean-list">
@@ -20,7 +20,7 @@
             </ul>
         </nav>
     </header>
-    <main>
+    <main class="subgrid">
         <section class="memes hidden"></section>
         <section class="gallery">
             <fieldset>
@@ -36,7 +36,7 @@
                 <canvas></canvas>
             </div>
 
-            <aside>
+            <aside class="editor-aside-layout">
                 <section class="editor-tools editor-tools-layout">
                     <h2>Edit Text Line</h2>
                     <div class="editor-actions">
@@ -50,8 +50,8 @@
 
                         <input class="tool line-text-edit" type="text" placeholder="This is the meme text ">
 
-                        <div class="text-options">
-                            <input type="color" class="tool">
+                        <div class="line-editor-options">
+                            <input type="color" class="tool" value="white">
                             <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,1)">
                                 a
                                 <i class="fa-solid fa-plus font-size-btn-dir"></i>
@@ -60,13 +60,13 @@
                                 a
                                 <i class="fa-solid fa-minus  font-size-btn-dir"></i>
                             </button>
-                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css" onclick="onChangeFontSize(event,-1)">
                                 <i class="fa-solid fa-align-left"></i>
                             </button>
-                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css" onclick="onChangeFontSize(event,-1)">
                                 <i class="fa-solid fa-align-justify"></i>
                             </button>
-                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
+                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css" onclick="onChangeFontSize(event,-1)">
                                 <i class="fa-solid fa-align-right"></i>
                             </button>
                             <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
@@ -80,9 +80,9 @@
                         </div>
 
                     </fieldset>
-                    <a href="#" class="download-btn" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
                     
                 </section>
+                <a href="#" class="export-btn download-btn" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
             </aside>
 
 

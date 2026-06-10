@@ -2,23 +2,28 @@
     display: none;
 }
 
+.subgrid {
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
 .clean-list {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
 
-.clean-btn{
-    border:none;
+.clean-btn {
+    border: none;
     background-color: transparent;
 }
 
-input::placeholder{
-  font-style: italic;
-  color:#989898;
-}   
+input::placeholder {
+    font-style: italic;
+    color: #989898;
+}
 
 
-.selected{
-    color:var(---clr-txt-base);
+.selected {
+    color: var(---clr-txt-base);
 }

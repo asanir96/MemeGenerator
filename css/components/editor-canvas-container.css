@@ -1,4 +1,8 @@
-.canvas-container{
-    grid-column: 1;
-    grid-row: 2;
+.canvas-container {
+    width: 750px;
+    margin: auto
+}
+
+.canvas-container canvas {
+    width: 750px;
 }

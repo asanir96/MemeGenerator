@@ -22,12 +22,13 @@ function addEventListeners() {
 
     elEditorActions.addEventListener('mouseleave', addStopEditListeners)
     elEditorActions.addEventListener('mouseover', (e) => onRemoveListeners(e))
-    
+
     elBackBtn.addEventListener('mouseleave', addStopEditListeners)
     elBackBtn.addEventListener('mouseover', (e) => onRemoveListeners(e))
 
 
     document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
+        document.querySelector('.download-btn').classList.add('disabled')
         gIsEditMode = true
         renderMeme(e)
     })
@@ -74,19 +75,20 @@ function addStopEditListeners() {
 function onStopEdit() {
     console.log('changing gIsEdit')
     gCurrLineIdx = -1
+    document.querySelector('.download-btn').classList.remove('disabled')
     gIsEditMode = false
+
     renderMeme()
     clearTextEdit()
 }
 function onTextEditBlur() {
     console.log('changing gIsEdit')
-
+    document.querySelector('.download-btn').classList.add('disabled')
     gIsEditMode = false
     renderMeme()
     clearTextEdit()
 }
 function renderMeme(ev) {
-    console.log(gIsEditMode)
     const meme = getMeme()
     const img = new Image()
     img.onload = () => {
@@ -204,6 +206,8 @@ function onSwitchLine(ev) {
     if (isLineSelected) return
 
     gCurrLineIdx++
+    document.querySelector('.download-btn').classList.add('disabled')
+
     gIsEditMode = true
     if (gCurrLineIdx > meme.lines.length - 1) gCurrLineIdx = 0
     switchLines(gCurrLineIdx)
@@ -227,11 +231,14 @@ function onAddLine(ev) {
 function onDown(ev) {
     if (gCurrLineIdx < 0) {
         console.log('changing gIsEdit')
+    document.querySelector('.download-btn').classList.remove('disabled')
 
         gIsEditMode = false
         renderMeme()
     } else {
         console.log('hi')
+            document.querySelector('.download-btn').classList.add('disabled')
+
         gIsEditMode = true
         switchLines(gCurrLineIdx)
         // renderMeme()
