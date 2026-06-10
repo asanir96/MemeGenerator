@@ -5,6 +5,17 @@
     padding-inline:1.5625em;
     font-size: 1rem;
 }
+.main-nav.hidden{
+    display: grid;
+}
+.main-nav.hidden>:not(.open-nav-btn){
+display: grid;
+z-index: 1;
+}
+
+.main-nav.hidden>.open-nav-btn{
+display: none;
+}
 
 .main-nav button:not(.selected){
         color:#989898;

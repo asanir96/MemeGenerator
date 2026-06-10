@@ -58,7 +58,6 @@ function onImgSelect(imgId) {
 
 function showEditor() {
     document.querySelector('.gallery').classList.add('hidden')
-    document.querySelector('.main-search').classList.add('hidden')
     document.querySelector('.editor').classList.remove('hidden')
     resizeCanvas()
     renderMeme()

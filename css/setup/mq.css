@@ -1,0 +1,38 @@
+@media (max-width:740px) {
+    .gallery-container {
+        column-gap: 15px;
+        column-width: 170px;
+        row-gap: 0;
+    }
+
+    .main-layout {
+        grid-template-columns: 0.625rem minmax(min-content, auto) min-content 0.625rem;
+    }
+
+    .gallery-img {
+        margin-block-end: 10px;
+    }
+
+    .main-nav.hidden>.open-nav-btn {
+        display: block;
+    }
+
+
+    .main-nav.hidden>:not(.open-nav-btn) {
+        display: none;
+    }
+
+    .logo{
+        height:50px
+    }
+
+    .gallery-search{
+        margin-block:10px
+    }
+
+    .canvas-container{
+        width:335px;
+    }
+
+
+}

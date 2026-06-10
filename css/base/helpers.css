@@ -23,3 +23,11 @@ input::placeholder {
 .selected {
     color: var(---clr-txt-base);
 }
+
+.position-relative{
+    position:relative;
+}
+
+.position-absolute{
+    position: absolute;
+}

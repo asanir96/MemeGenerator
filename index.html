@@ -10,21 +10,23 @@
 </head>
 
 <body onload="onInit()" class="main-layout">
-    <header class="header-layout subgrid">
+    <header class="header-layout subgrid position-relative">
         <div class="logo"><img src="images/logo/aeae63780efb67018fae1f37db1aa4731bc681a9.png" alt=""></div>
-        <nav class="main-nav">
-            <ul class="clean-list">
+        <nav class="main-nav hidden">
+            <ul class="clean-list ">
                 <li><button class="clean-btn">Memes</button></li>
                 <li><button class="clean-btn selected">Gallery</button></li>
                 <li><button class="clean-btn">About</button></li>
             </ul>
+            <button class="open-nav-btn position-absolute"> <i class="fa-solid fa-align-justify"></i></i>
         </nav>
+        </button>
     </header>
     <main class="subgrid">
         <section class="memes hidden"></section>
         <section class="gallery">
-            <fieldset>
-                <input class="main-search clean-input" type="text" placeholder="search">
+            <fieldset class="gallery-search">
+                <input class= "clean-input" type="text" placeholder="search">
             </fieldset>
             <section class='gallery-container'></section>
         </section>
@@ -60,13 +62,16 @@
                                 a
                                 <i class="fa-solid fa-minus  font-size-btn-dir"></i>
                             </button>
-                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css" onclick="onChangeFontSize(event,-1)">
+                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css"
+                                onclick="onChangeFontSize(event,-1)">
                                 <i class="fa-solid fa-align-left"></i>
                             </button>
-                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css" onclick="onChangeFontSize(event,-1)">
+                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css"
+                                onclick="onChangeFontSize(event,-1)">
                                 <i class="fa-solid fa-align-justify"></i>
                             </button>
-                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css" onclick="onChangeFontSize(event,-1)">
+                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css"
+                                onclick="onChangeFontSize(event,-1)">
                                 <i class="fa-solid fa-align-right"></i>
                             </button>
                             <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
@@ -80,9 +85,10 @@
                         </div>
 
                     </fieldset>
-                    
+
                 </section>
-                <a href="#" class="export-btn download-btn" onclick="onDownloadMeme(this,event)" download="file-name">Download</a>
+                <a href="#" class="export-btn download-btn" onclick="onDownloadMeme(this,event)"
+                    download="file-name">Download</a>
             </aside>
 
 

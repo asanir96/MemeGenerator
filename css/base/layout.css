@@ -42,21 +42,6 @@ aside .download-btn {
     grid-column: 2/4;
 }
 
-.gallery fieldset {
-    padding-inline: 0;
-    margin-block: 30px;
-    width: 100%;
-}
-
-.gallery>fieldset>input {
-    padding: 10px;
-    width: 100%;
-    border-radius: 50px;
-    border: 1px solid #EBEBEB
-}
-
-
-
 .header-layout>.logo {
     grid-column: 2;
 }
