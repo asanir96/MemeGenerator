@@ -1,0 +1,13 @@
+.show-edit-panel-btn{
+    font-size: 3rem;
+    display: none;
+    justify-content: center;
+    text-align: center;
+    top:10px;
+    left: -70px;
+    background-color: var(---clr-base-1);
+    color:var(---clr-txt-1);
+    border:1px solid var(---clr-border-1);
+    border-inline-end: 0;
+    border-radius:5px;
+}

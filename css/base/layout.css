@@ -21,8 +21,8 @@
     grid-auto-rows: auto;
 }
 
-.editor-layout .canvas-container{
-    grid-row:1/-1
+.editor-layout .canvas-container {
+    grid-row: 1/-1
 }
 
 .editor-layout>aside {

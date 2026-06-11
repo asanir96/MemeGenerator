@@ -31,3 +31,12 @@ input::placeholder {
 .position-absolute{
     position: absolute;
 }
+
+.hidden-phone{
+    display: none;
+}
+
+.shown-tablet{
+        display: none;
+
+}
