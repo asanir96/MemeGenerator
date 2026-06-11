@@ -4,7 +4,7 @@
 
     margin-block: 1.5em;
     margin-inline-start: 1.625em;
-    color:var(---clr-txt-2);
+    color:var(---clr-txt-3);
     width:fit-content;
     grid-column: 1;
     grid-row:1;

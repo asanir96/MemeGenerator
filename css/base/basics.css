@@ -4,7 +4,7 @@
 
 html {
     font-family: roboto;
-    height: 100vh;
+    height: 100%;
 }
 
 body {
@@ -64,4 +64,13 @@ fieldset {
 
 nav {
     display: grid;
+}
+
+select{
+    font-family: 'roboto';
+    border: 1px solid var(---clr-border-1);
+}
+
+input{
+    font-size: 1rem;
 }

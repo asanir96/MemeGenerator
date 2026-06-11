@@ -1,10 +1,12 @@
 :root{
     ---clr-base:#FFFFFF;
     ---clr-base-1:#F8F8F8;
+    --clr-base-2:#EBEBEB;
 
     ---clr-txt-base:#FF9826;
     ---clr-txt-1:#727272;
-    ---clr-txt-2:#b6b4b4;
+    ---clr-txt-2:#989898;
+    ---clr-txt-3:#b6b4b4;
 
     ---clr-border-1:#EBEBEB;
 }

@@ -26,7 +26,7 @@
         <section class="memes hidden"></section>
         <section class="gallery">
             <fieldset class="gallery-search">
-                <input class= "clean-input" type="text" placeholder="search">
+                <input class="clean-input" type="text" placeholder="search">
             </fieldset>
             <section class='gallery-container'></section>
         </section>
@@ -53,44 +53,51 @@
                         <input class="tool line-text-edit" type="text" placeholder="This is the meme text ">
 
                         <div class="line-editor-options">
-                            <input type="color" class="tool" value="white">
-                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,1)">
-                                a
-                                <i class="fa-solid fa-plus font-size-btn-dir"></i>
-                            </button>
-                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
-                                a
-                                <i class="fa-solid fa-minus  font-size-btn-dir"></i>
-                            </button>
-                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css"
-                                onclick="onChangeFontSize(event,-1)">
-                                <i class="fa-solid fa-align-left"></i>
-                            </button>
-                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css"
-                                onclick="onChangeFontSize(event,-1)">
-                                <i class="fa-solid fa-align-justify"></i>
-                            </button>
-                            <button class="tool tools-font-size-btn clean-btn line-editor-text-align-btn.css"
-                                onclick="onChangeFontSize(event,-1)">
-                                <i class="fa-solid fa-align-right"></i>
-                            </button>
-                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
-                                a
-                                <i class="fa-solid fa-minus  font-size-btn-dir"></i>
-                            </button>
+                            <select class="line-editor-font" name="" id="">
+                                <option value="Impact" selected>Impact</option>
+                            </select>
+                            <div class="line-editor-style">
 
-                            <button class="tool tools-font-size-btn clean-btn" onclick="onChangeFontSize(event,-1)">
-                                <i class="fa-solid fa-pencil"></i>
-                            </button>
+                                <button class="tool line-style-btn clean-btn position-relative" onclick="onChangeFontSize(event,1)">
+                                    a
+                                    <i class="fa-solid fa-plus line-style-btn-dir"></i>
+                                </button>
+                                <button class="tool line-style-btn clean-btn position-relative" onclick="onChangeFontSize(event,-1)">
+                                    a
+                                    <i class="fa-solid fa-minus  line-style-btn-dir"></i>
+                                </button>
+                                <button class="tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
+                                    onclick="onChangeFontSize(event,-1)">
+                                    <i class="fa-solid fa-align-left"></i>
+                                </button>
+                                <button class="tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
+                                    onclick="onChangeFontSize(event,-1)">
+                                    <i class="fa-solid fa-align-justify"></i>
+                                </button>
+                                <button class="tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
+                                    onclick="onChangeFontSize(event,-1)">
+                                    <i class="fa-solid fa-align-right"></i>
+                                </button>
+                                <button class="tool line-style-btn clean-btn position-relative" onclick="onChangeFontSize(event,-1)">
+                                    a
+                                    <i class="fa-solid fa-minus  line-style-btn-dir"></i>
+                                </button>
+    
+                                <button class="tool line-style-btn clean-btn position-relative" onclick="onChangeFontSize(event,-1)">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </button>
+                            </div>
                         </div>
 
                     </fieldset>
 
                 </section>
-                <a href="#" class="export-btn download-btn" onclick="onDownloadMeme(this,event)"
-                    download="file-name">Download</a>
+                <div class="export-buttons">
+                    <a href="#" class="export-btn download-btn" onclick="onDownloadMeme(this,event)"
+                        download="file-name">Download</a>
+    
+                </div>    
             </aside>
-
 
         </section>
     </main>
