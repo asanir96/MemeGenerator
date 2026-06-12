@@ -108,12 +108,10 @@ function renderLines2() {
     gMemeCtx.scale(gScale, gScale)
 
     lines.forEach((line, idx) => {
-        if ((gCurrLineIdx >= 0 &&
-            gCurrLineIdx === idx
-        ) ||
-            (gIsEditMode && idx === selectedLineIdx))
-            renderLine2(line, true)
-        else renderLine2(line, false)
+        if (gIsEditMode && idx === selectedLineIdx) renderLine2(line, false,true)
+        else if (gCurrLineIdx >= 0 &&
+            gCurrLineIdx === idx) renderLine2(line,true,false)
+        else renderLine2(line, false,false)
     });
 }
 
@@ -140,7 +138,7 @@ function renderLines2() {
 //     });
 // }
 
-function renderLine2(line, isBordered) {
+function renderLine2(line, isHovered, isSelected) {
     const { size, pos } = line
 
     gMemeCtx.font = `${line.size}px impact`;
@@ -149,8 +147,9 @@ function renderLine2(line, isBordered) {
 
     const metrics = gMemeCtx.measureText(line.txt);
     const textWidth = metrics.width;
+    gMemeCtx.strokeStyle = 'black'
 
-    if (isBordered) {
+    if (isSelected) {
         gMemeCtx.strokeStyle = "grey";
 
         gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
@@ -160,8 +159,18 @@ function renderLine2(line, isBordered) {
         gMemeCtx.strokeRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
         gMemeCtx.fillRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
     }
+    if (isHovered || isSelected) {
+        gMemeCtx.strokeStyle = "red";
 
-    gMemeCtx.strokeStyle = 'black'
+        // gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
+        // gMemeCtx.lineWidth = 0.5;
+        // const padding = 10;
+
+        // gMemeCtx.strokeRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
+        // gMemeCtx.fillRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
+    }
+
+    // gMemeCtx.strokeStyle = 'black'
     gMemeCtx.lineWidth = 4
 
     gMemeCtx.fillStyle = line.color;
