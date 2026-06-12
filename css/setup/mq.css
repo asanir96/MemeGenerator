@@ -77,7 +77,7 @@
 
 @media (max-width:740px) {
     .main-nav.hidden {
-        display:none;
+        display: none;
         background-color: var(---clr-txt-base);
         color: white;
         grid-template-rows: 1fr repeat(3, auto) 1fr;
@@ -107,7 +107,12 @@
         grid-auto-flow: row;
     }
 
-
+    aside .download-btn {
+        margin-block:10px;
+        text-align: center;
+        width: auto;
+        justify-self: stretch;
+    }
 
     .gallery-container {
         column-gap: 15px;
