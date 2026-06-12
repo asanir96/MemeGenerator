@@ -5,13 +5,13 @@ var gMeme = {
     selectedLineIdx: 0,
     lines: [
         {
-            pos: { x: 0.1, y: 0.2 },
+            pos: { x: 20, y: 20 },
             txt: 'This is a meme text',
             size: 24,
             color: 'white'
         },
         {
-            pos: { x: 0.1, y: 0.8 },
+            pos: { x: 20, y: 80 },
             txt: 'This is a meme text',
             size: 24,
             color: 'white'

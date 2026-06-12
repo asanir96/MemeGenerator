@@ -92,11 +92,7 @@ function renderMeme(ev) {
     const img = new Image()
     img.onload = () => {
         renderImg(img)
-        // if (gCurrLineIdx >= 0 || gIsEditMode) renderHighlightedLines()
-        // else renderLines(meme)
-
         renderLines2()
-
     }
 
     img.src = gImgs.find(img => img.id === meme.selectedImgId).url
@@ -109,82 +105,45 @@ function renderImg(img) {
 
 function renderLines2() {
     const { lines, selectedLineIdx } = getMeme()
+    gMemeCtx.scale(gScale, gScale)
 
     lines.forEach((line, idx) => {
         if ((gCurrLineIdx >= 0 &&
             gCurrLineIdx === idx
         ) ||
             (gIsEditMode && idx === selectedLineIdx))
-            renderLine(line, true)
-        else renderLine(line, false)
+            renderLine2(line, true)
+        else renderLine2(line, false)
     });
 }
 
+// function renderLines() {
+//     const { lines } = getMeme()
 
+//     lines.forEach(line => {
+//         const { normSize, normX, normY } = getNormTextMeasures(line)
 
-function renderLineBorders() {
-    const { lines, selectedLineIdx } = getMeme()
+//         gMemeCtx.font = `${normSize}px impact`;
+//         gMemeCtx.textAlign = "left";
+//         gMemeCtx.textBaseline = "top";
 
-    lines.forEach((line, idx) => {
-        if ((idx === gCurrLineIdx) ||
-            (idx === selectedLineIdx && gIsEditMode)) {
-            const { normSize, normX, normY } = getNormTextMeasures(line)
+//         const metrics = gMemeCtx.measureText(line.txt);
+//         const textWidth = metrics.width;
 
-            gMemeCtx.font = `${normSize}px impact`;
-            gMemeCtx.textAlign = "left";
-            gMemeCtx.textBaseline = "top";
+//         gMemeCtx.strokeStyle = 'black'
+//         gMemeCtx.lineWidth = 4
 
+//         gMemeCtx.fillStyle = line.color;
 
-            const metrics = gMemeCtx.measureText(line.txt);
-            const textWidth = metrics.width;
-            gMemeCtx.strokeStyle = 'black'
-            gMemeCtx.lineWidth = 4
+//         gMemeCtx.strokeText(line.txt, normX, normY)
+//         gMemeCtx.fillText(line.txt, normX, normY)
+//     });
+// }
 
-            gMemeCtx.strokeStyle = "grey";
+function renderLine2(line, isBordered) {
+    const { size, pos } = line
 
-            gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
-            gMemeCtx.lineWidth = 0.5;
-            const padding = 10;
-
-            gMemeCtx.strokeRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
-            gMemeCtx.fillRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
-
-            gMemeCtx.strokeText(line.txt, normX, normY)
-            gMemeCtx.fillText(line.txt, normX, normY)
-        }
-    })
-
-}
-
-
-function renderLines() {
-    const { lines } = getMeme()
-
-    lines.forEach(line => {
-        const { normSize, normX, normY } = getNormTextMeasures(line)
-
-        gMemeCtx.font = `${normSize}px impact`;
-        gMemeCtx.textAlign = "left";
-        gMemeCtx.textBaseline = "top";
-
-        const metrics = gMemeCtx.measureText(line.txt);
-        const textWidth = metrics.width;
-
-        gMemeCtx.strokeStyle = 'black'
-        gMemeCtx.lineWidth = 4
-
-        gMemeCtx.fillStyle = line.color;
-
-        gMemeCtx.strokeText(line.txt, normX, normY)
-        gMemeCtx.fillText(line.txt, normX, normY)
-    });
-}
-
-
-function renderLine(line, isBordered) {
-    const { normSize, normX, normY } = getNormTextMeasures(line)
-
-    gMemeCtx.font = `${normSize}px impact`;
+    gMemeCtx.font = `${line.size}px impact`;
     gMemeCtx.textAlign = "left";
     gMemeCtx.textBaseline = "top";
 
@@ -198,8 +157,8 @@ function renderLine(line, isBordered) {
         gMemeCtx.lineWidth = 0.5;
         const padding = 10;
 
-        gMemeCtx.strokeRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
-        gMemeCtx.fillRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
+        gMemeCtx.strokeRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
+        gMemeCtx.fillRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
     }
 
     gMemeCtx.strokeStyle = 'black'
@@ -207,14 +166,40 @@ function renderLine(line, isBordered) {
 
     gMemeCtx.fillStyle = line.color;
 
-    gMemeCtx.strokeText(line.txt, normX, normY)
-    gMemeCtx.fillText(line.txt, normX, normY)
+    gMemeCtx.strokeText(line.txt, pos.x, pos.y)
+    gMemeCtx.fillText(line.txt, pos.x, pos.y)
 }
 
-function renderHighlightedLines() {
-    renderLineBorders()
-    renderLines()
-}
+// function renderLine(line, isBordered) {
+//     const { normSize, normX, normY } = getNormTextMeasures(line)
+
+//     gMemeCtx.font = `${normSize}px impact`;
+//     gMemeCtx.textAlign = "left";
+//     gMemeCtx.textBaseline = "top";
+
+//     const metrics = gMemeCtx.measureText(line.txt);
+//     const textWidth = metrics.width;
+
+//     if (isBordered) {
+//         gMemeCtx.strokeStyle = "grey";
+
+//         gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
+//         gMemeCtx.lineWidth = 0.5;
+//         const padding = 10;
+
+//         gMemeCtx.strokeRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
+//         gMemeCtx.fillRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
+//     }
+
+//     gMemeCtx.strokeStyle = 'black'
+//     gMemeCtx.lineWidth = 4
+
+//     gMemeCtx.fillStyle = line.color;
+
+//     gMemeCtx.strokeText(line.txt, normX, normY)
+//     gMemeCtx.fillText(line.txt, normX, normY)
+// }
+
 function onDownloadMeme(elLink, ev) {
     if (gIsEditMode) {
         ev.preventDefault()
@@ -268,7 +253,6 @@ function onDown(ev) {
         gIsEditMode = false
         renderMeme()
     } else {
-        console.log('hi')
         document.querySelector('.download-btn').classList.add('disabled')
 
         gIsEditMode = true
@@ -288,16 +272,7 @@ function isMouseOnLine(ev, line) {
     const { scale, normSize, normX, normY } = getNormTextMeasures(line)
 
     const textWidth = getTextWidth(line, scale)
-    // console.log('offsetY',offsetY)
-    // console.log('normY',normY)
-    // console.log('normY + normSize',normY + normSize)
-    // console.log('')
-    // console.log('offsetX',offsetX)
-    // console.log('normX',normX)
-    // console.log('normX - (textWidth / 2)',normX - (textWidth / 2))
-    // console.log('normX - textWidth / 2',normX - textWidth / 2)
-    // console.log('normX + textWidth / 2',normX + textWidth / 2)
-    // console.log('')
+
     return (
         offsetX >= normX &&
         offsetX <= normX + textWidth &&
@@ -305,21 +280,43 @@ function isMouseOnLine(ev, line) {
         offsetY <= normY + normSize)
 }
 
+function isMouseOnLine2(ev, line) {
+    const { offsetX, offsetY } = ev
+    // const { scale, normSize, normX, normY } = getNormTextMeasures(line)
+    const { size, pos } = line
+    const metrics = gMemeCtx.measureText(line.txt);
+    // console.log('offsetY',offsetY)
+    // console.log('pos.y',pos.y)
+    // console.log('pos.y + size',pos.y + size)
+    // console.log('')
+    // console.log('offsetX',offsetX)
+    // console.log('pos.x',pos.x)
+    // console.log('pos.x * gScale',pos.x *gScale)
+    // console.log('(pos.x * gScale)+metrics.width',(pos.x+metrics.width)*gScale)
+    // console.log('pos.x + metrics.width',pos.x + metrics.width)
+    // console.log('')
+    return (
+        offsetX >= pos.x * gScale &&
+        offsetX <= (pos.x + metrics.width) * gScale &&
+        offsetY >= pos.y * gScale &&
+        offsetY <= (pos.y + size) * gScale)
+}
+
 function onHighlightLine(ev) {
-    renderMeme()
     const { lines, selectedLineIdx, isLineSelected } = getMeme()
     if (isLineSelected) return
     gHighlightedLineIdx = selectedLineIdx
 
-    gCurrLineIdx = lines.findIndex(line => isMouseOnLine(ev, line))
-    // renderLineBorders(ev)
-    // clearTextEdit()
-
+    gCurrLineIdx = lines.findIndex(line => isMouseOnLine2(ev, line))
+    renderMeme()
 }
 
 function onOpenGallery() {
     document.querySelector('.editor').classList.add('hidden')
     document.querySelector('.gallery').classList.remove('hidden')
+    gElMemeCanvas.width = 400
+    gElMemeCanvas.height = 400
+    gScale = 1
 }
 
 function getNormTextMeasures(line) {

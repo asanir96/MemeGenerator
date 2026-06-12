@@ -127,7 +127,10 @@
         display: block;
     }
 
+    .show-edit-panel-btn {
+        display: none;
 
+    }
 
     .logo {
         height: 50px
@@ -248,8 +251,6 @@
     .canvas-container>canvas {
         width: 100%;
     }
-
-
 
     .editor-aside-layout {
         grid-template-rows: auto 1fr;

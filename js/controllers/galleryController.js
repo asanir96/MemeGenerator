@@ -27,29 +27,22 @@ var gImgs = [
     { id: 25, url: 'images/meme-imgs-various-ratios/X-Everywhere.jpg', keywords: ['funny', 'toy story'] },
 ]
 var gInitCanvasWidth
+var gScale = 1
 
 function onInit() {
     gElMemeCanvas = document.querySelector('canvas')
     gMemeCtx = gElMemeCanvas.getContext('2d')
-    gInitCanvasWidth = gElMemeCanvas.width
-    getCanvasScale()
     renderMeme()
+    gInitCanvasWidth = gElMemeCanvas.width
     renderGallery()
     addEventListeners()
 }
 
-function getCanvasScale(){
-    gElMemeCanvas.width
-}
+
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
-    const scale = elContainer.clientWidth/gElMemeCanvas.width
-    console.log('elContainer.clientWidth', elContainer.clientWidth)
-    console.log('gElMemeCanvas.width', gElMemeCanvas.width)
-    console.log('scale', scale)
+    gScale = elContainer.clientWidth / gElMemeCanvas.width
     gElMemeCanvas.width = elContainer.clientWidth
-
-    return scale
 }
 
 
@@ -74,5 +67,4 @@ function showEditor() {
 
     resizeCanvas()
     renderMeme()
-
 }
