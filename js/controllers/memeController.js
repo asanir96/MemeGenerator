@@ -42,7 +42,6 @@ function addEventListeners() {
     document.querySelector('.line-text-edit').addEventListener('blur', onTextEditBlur)
 
     gElMemeCanvas.addEventListener('mousemove', (e) => {
-        console.log(gMemeCtx)
 
         gCurrLineIdx = -1
         elEditor.removeEventListener('click', onStopEdit)
@@ -61,7 +60,6 @@ function onRemoveListeners(ev) {
     const child = ev.target.closest('button, input')
     if (!child) return
 
-    console.log('child', child)
     document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
     document.querySelector('.editor').removeEventListener('click', onStopEdit)
 }
@@ -81,6 +79,7 @@ function onStopEdit() {
     renderMeme()
     clearTextEdit()
 }
+
 function onTextEditBlur() {
     console.log('changing gIsEdit')
     document.querySelector('.download-btn').classList.add('disabled')
@@ -93,10 +92,11 @@ function renderMeme(ev) {
     const img = new Image()
     img.onload = () => {
         renderImg(img)
-        if (gCurrLineIdx >= 0 || gIsEditMode) renderHighlightedLines()
-        else renderLines(meme)
-        // renderLineBorders()
-        // renderLines(meme)
+        // if (gCurrLineIdx >= 0 || gIsEditMode) renderHighlightedLines()
+        // else renderLines(meme)
+
+        renderLines2()
+
     }
 
     img.src = gImgs.find(img => img.id === meme.selectedImgId).url
@@ -107,14 +107,33 @@ function renderImg(img) {
     gMemeCtx.drawImage(img, 0, 0, gElMemeCanvas.width, gElMemeCanvas.height)
 }
 
+function renderLines2() {
+    const { lines, selectedLineIdx } = getMeme()
+
+    lines.forEach((line, idx) => {
+        if ((gCurrLineIdx >= 0 &&
+            gCurrLineIdx === idx
+        ) ||
+            (gIsEditMode && idx === selectedLineIdx))
+            renderLine(line, true)
+        else renderLine(line, false)
+    });
+}
+
+
+
 function renderLineBorders() {
     const { lines, selectedLineIdx } = getMeme()
 
     lines.forEach((line, idx) => {
         if ((idx === gCurrLineIdx) ||
             (idx === selectedLineIdx && gIsEditMode)) {
+            const { normSize, normX, normY } = getNormTextMeasures(line)
 
-            gMemeCtx.font = `${line.size}px impact`;
+            gMemeCtx.font = `${normSize}px impact`;
+            gMemeCtx.textAlign = "left";
+            gMemeCtx.textBaseline = "top";
+
 
             const metrics = gMemeCtx.measureText(line.txt);
             const textWidth = metrics.width;
@@ -127,43 +146,25 @@ function renderLineBorders() {
             gMemeCtx.lineWidth = 0.5;
             const padding = 10;
 
-            gMemeCtx.strokeRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
-            gMemeCtx.fillRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
+            gMemeCtx.strokeRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
+            gMemeCtx.fillRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
+
+            gMemeCtx.strokeText(line.txt, normX, normY)
+            gMemeCtx.fillText(line.txt, normX, normY)
         }
     })
 
 }
-function renderLineBorders2() {
-    const { lines, selectedLineIdx } = getMeme()
 
-    lines.forEach((line, idx) => {
-        if ((idx === gCurrLineIdx) ||
-            (idx === selectedLineIdx && gIsEditMode)) {
-
-            gMemeCtx.font = `${line.size}px serif`;
-
-            const metrics = gMemeCtx.measureText(line.txt);
-            const textWidth = metrics.width;
-
-            gMemeCtx.strokeStyle = "grey";
-            gMemeCtx.setLineDash(pattern);
-
-            gMemeCtx.fillStyle = 'rgb(0 0 0 / 30%)'
-            gMemeCtx.lineWidth = 0.5;
-            const padding = 10;
-
-            gMemeCtx.strokeRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
-            gMemeCtx.fillRect(line.pos.x - (textWidth / 2) - padding, line.pos.y - padding, textWidth + (padding * 2), line.size + (padding * 2))
-        }
-    })
-
-}
 
 function renderLines() {
     const { lines } = getMeme()
+
     lines.forEach(line => {
-        gMemeCtx.font = `${line.size}px impact`;
-        gMemeCtx.textAlign = "center";
+        const { normSize, normX, normY } = getNormTextMeasures(line)
+
+        gMemeCtx.font = `${normSize}px impact`;
+        gMemeCtx.textAlign = "left";
         gMemeCtx.textBaseline = "top";
 
         const metrics = gMemeCtx.measureText(line.txt);
@@ -174,9 +175,40 @@ function renderLines() {
 
         gMemeCtx.fillStyle = line.color;
 
-        gMemeCtx.strokeText(line.txt, line.pos.x, line.pos.y)
-        gMemeCtx.fillText(line.txt, line.pos.x, line.pos.y)
+        gMemeCtx.strokeText(line.txt, normX, normY)
+        gMemeCtx.fillText(line.txt, normX, normY)
     });
+}
+
+
+function renderLine(line, isBordered) {
+    const { normSize, normX, normY } = getNormTextMeasures(line)
+
+    gMemeCtx.font = `${normSize}px impact`;
+    gMemeCtx.textAlign = "left";
+    gMemeCtx.textBaseline = "top";
+
+    const metrics = gMemeCtx.measureText(line.txt);
+    const textWidth = metrics.width;
+
+    if (isBordered) {
+        gMemeCtx.strokeStyle = "grey";
+
+        gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
+        gMemeCtx.lineWidth = 0.5;
+        const padding = 10;
+
+        gMemeCtx.strokeRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
+        gMemeCtx.fillRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
+    }
+
+    gMemeCtx.strokeStyle = 'black'
+    gMemeCtx.lineWidth = 4
+
+    gMemeCtx.fillStyle = line.color;
+
+    gMemeCtx.strokeText(line.txt, normX, normY)
+    gMemeCtx.fillText(line.txt, normX, normY)
 }
 
 function renderHighlightedLines() {
@@ -231,13 +263,13 @@ function onAddLine(ev) {
 function onDown(ev) {
     if (gCurrLineIdx < 0) {
         console.log('changing gIsEdit')
-    document.querySelector('.download-btn').classList.remove('disabled')
+        document.querySelector('.download-btn').classList.remove('disabled')
 
         gIsEditMode = false
         renderMeme()
     } else {
         console.log('hi')
-            document.querySelector('.download-btn').classList.add('disabled')
+        document.querySelector('.download-btn').classList.add('disabled')
 
         gIsEditMode = true
         switchLines(gCurrLineIdx)
@@ -246,20 +278,31 @@ function onDown(ev) {
     }
 }
 
-function getTextWidth(line) {
-    gMemeCtx.font = `${line.size}px impact`
+function getTextWidth(line, scale) {
     const metrics = gMemeCtx.measureText(line.txt);
-    return metrics.width;
+    return metrics.width * scale;
 }
 
 function isMouseOnLine(ev, line) {
     const { offsetX, offsetY } = ev
-    const textWidth = getTextWidth(line)
+    const { scale, normSize, normX, normY } = getNormTextMeasures(line)
+
+    const textWidth = getTextWidth(line, scale)
+    // console.log('offsetY',offsetY)
+    // console.log('normY',normY)
+    // console.log('normY + normSize',normY + normSize)
+    // console.log('')
+    // console.log('offsetX',offsetX)
+    // console.log('normX',normX)
+    // console.log('normX - (textWidth / 2)',normX - (textWidth / 2))
+    // console.log('normX - textWidth / 2',normX - textWidth / 2)
+    // console.log('normX + textWidth / 2',normX + textWidth / 2)
+    // console.log('')
     return (
-        offsetX >= line.pos.x - textWidth / 2 &&
-        offsetX <= line.pos.x + textWidth / 2 &&
-        offsetY >= line.pos.y &&
-        offsetY <= line.pos.y + line.size)
+        offsetX >= normX &&
+        offsetX <= normX + textWidth &&
+        offsetY >= normY &&
+        offsetY <= normY + normSize)
 }
 
 function onHighlightLine(ev) {
@@ -275,7 +318,17 @@ function onHighlightLine(ev) {
 }
 
 function onOpenGallery() {
-    console.log('hi')
     document.querySelector('.editor').classList.add('hidden')
     document.querySelector('.gallery').classList.remove('hidden')
+}
+
+function getNormTextMeasures(line) {
+    const { size, pos } = line
+    const scale = gElMemeCanvas.width / gInitCanvasWidth
+
+    const normSize = size * scale
+    const normX = pos.x * gElMemeCanvas.width
+    const normY = pos.y * gElMemeCanvas.height
+
+    return { scale, normSize, normX, normY }
 }

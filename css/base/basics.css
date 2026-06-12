@@ -40,7 +40,16 @@ button {
     background-color: transparent;
     
     font-family: 'roboto';
+}
+
+button:not(.inactive){
     cursor: pointer;
+
+}
+
+button.inactive{
+        cursor: not-allowed;
+
 }
 
 button:hover {

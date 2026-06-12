@@ -40,3 +40,8 @@ input::placeholder {
         display: none;
 
 }
+
+.inactive{
+    opacity: 0.2;
+    cursor:not-allowed;
+}

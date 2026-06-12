@@ -26,18 +26,30 @@ var gImgs = [
     { id: 24, url: 'images/meme-imgs-various-ratios/putin.jpg', keywords: ['funny', 'putin'] },
     { id: 25, url: 'images/meme-imgs-various-ratios/X-Everywhere.jpg', keywords: ['funny', 'toy story'] },
 ]
+var gInitCanvasWidth
 
 function onInit() {
     gElMemeCanvas = document.querySelector('canvas')
     gMemeCtx = gElMemeCanvas.getContext('2d')
+    gInitCanvasWidth = gElMemeCanvas.width
+    getCanvasScale()
     renderMeme()
     renderGallery()
     addEventListeners()
 }
 
+function getCanvasScale(){
+    gElMemeCanvas.width
+}
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
+    const scale = elContainer.clientWidth/gElMemeCanvas.width
+    console.log('elContainer.clientWidth', elContainer.clientWidth)
+    console.log('gElMemeCanvas.width', gElMemeCanvas.width)
+    console.log('scale', scale)
     gElMemeCanvas.width = elContainer.clientWidth
+
+    return scale
 }
 
 
@@ -59,6 +71,7 @@ function onImgSelect(imgId) {
 function showEditor() {
     document.querySelector('.gallery').classList.add('hidden')
     document.querySelector('.editor').classList.remove('hidden')
+
     resizeCanvas()
     renderMeme()
 
