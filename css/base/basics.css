@@ -52,7 +52,9 @@ button.inactive{
 
 }
 
-button:hover {
+button:hover,
+button:hover >*
+ {
     color: #FF9826;
 }
 

@@ -43,12 +43,13 @@
                         class="fa-solid fa-caret-left"></i></button>
                 <section class="editor-tools editor-tools-layout">
                     <h2>Edit Text Line</h2>
+                    
                     <div class="editor-actions">
-                        <button class="tool tools-add-line" onclick="onSwitchLine(event)"><i
-                                class="fa-solid fa-up-down"></i></button>
-                        <button class="tool tools-add-line" onclick="onAddLine(event)"><i
+                        <button class="line-action-btn line-switch-btn tool tools-add-line" onclick="onSwitchLine(event)"><span class="first">1</span> <span> / </span> <span class="second">2</span></button>
+                        <button class="line-action-btn line-move-btn tool tools-add-line" ><span>&rlhar;</span> </button>
+                        <button class="line-action-btn line-add-btn tool tools-add-line" onclick="onAddLine(event)"><i
                                 class="fa-regular fa-square-plus"></i></button>
-                        <button class="tool tools-delete-line"><i class="fa-regular fa-trash-can"></i></button>
+                        <button class="line-action-btn line-delete-btn tool tools-delete-line" onclick="onDeleteLine()"><i class="fa-regular fa-trash-can"></i></button>
                     </div>
 
                     <fieldset class="line-editor">

@@ -1,0 +1,45 @@
+.editor-actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
+    gap: 20px;
+}
+
+.line-action-btn {
+    width: fit-content;
+    height: 21px;
+    padding: 0;
+}
+
+.line-action-btn>* {
+    /* height:100%; */
+    color: var(---clr-txt-1);
+    font-size: 1.125rem;
+    font-weight: 100;
+    line-height: 100%;
+    /* width:100%; */
+}
+
+.line-action-btn>span {
+    width: fit-content;
+}
+
+.line-move-btn>span {
+    display: inline-block;
+    rotate: 90deg;
+
+}
+
+.line-switch-btn {
+    display: grid;
+    font-size: 1.125rem;
+    color: var(---clr-txt-1);
+
+    grid-auto-flow: column;
+    align-content: center;
+    line-height: 100%;
+}
+
+.line-switch-btn>:not(.first){
+    opacity:0.3;
+}

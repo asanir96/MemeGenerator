@@ -435,3 +435,11 @@ function onAlignText(alignment, elAlignTextBtn) {
     document.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
     elAlignTextBtn.classList.add('selected')
 }
+
+function onDeleteLine(){
+    if (!gIsEditMode) return
+
+    const {selectedLineIdx} = getMeme()
+    deleteLine(selectedLineIdx)
+    renderMeme()
+}

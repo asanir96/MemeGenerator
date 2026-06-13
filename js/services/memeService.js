@@ -94,3 +94,7 @@ function _createLine() {
 
     return line
 }
+
+function deleteLine(idx){
+    gMeme.lines.splice(idx)
+}
