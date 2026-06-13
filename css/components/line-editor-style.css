@@ -11,6 +11,11 @@
     height: 1.375rem;
 }
 
+.line-editor-style>button.selected{
+        color: var(---clr-txt-base);
+
+}
+
 .line-editor-options>select {
     width: 10rem;
 }

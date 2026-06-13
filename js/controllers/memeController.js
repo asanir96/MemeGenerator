@@ -5,7 +5,7 @@ var gElMemeCanvas
 var gMemeCtx
 var gLinPos = { x: 20, y: 20 }
 var gLineIdx
-var gCurrLineIdx = -1
+var gHoveredLineIdx = -1
 var gHighlightedLineIdx = 0
 var gIsEditMode = false
 var gIsHighlightMode = false
@@ -43,7 +43,7 @@ function addEventListeners() {
 
     gElMemeCanvas.addEventListener('mousemove', (e) => {
 
-        gCurrLineIdx = -1
+        gHoveredLineIdx = -1
         elEditor.removeEventListener('click', onStopEdit)
         document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
     }
@@ -57,7 +57,7 @@ function addEventListeners() {
 
 function onRemoveListeners(ev) {
 
-    const child = ev.target.closest('button, input')
+    const child = ev.target.closest('button, input,select')
     if (!child) return
 
     document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
@@ -72,7 +72,7 @@ function addStopEditListeners() {
 
 function onStopEdit() {
     console.log('changing gIsEdit')
-    gCurrLineIdx = -1
+    gHoveredLineIdx = -1
     document.querySelector('.download-btn').classList.remove('disabled')
     gIsEditMode = false
 
@@ -87,6 +87,7 @@ function onTextEditBlur() {
     renderMeme()
     clearTextEdit()
 }
+
 function renderMeme(ev) {
     const meme = getMeme()
     const img = new Image()
@@ -108,10 +109,10 @@ function renderLines2() {
     gMemeCtx.scale(gScale, gScale)
 
     lines.forEach((line, idx) => {
-        if (gIsEditMode && idx === selectedLineIdx) renderLine2(line, false,true)
-        else if (gCurrLineIdx >= 0 &&
-            gCurrLineIdx === idx) renderLine2(line,true,false)
-        else renderLine2(line, false,false)
+        if (gIsEditMode && idx === selectedLineIdx) renderLine2(line, false, true)
+        else if (gHoveredLineIdx >= 0 &&
+            gHoveredLineIdx === idx) renderLine2(line, true, false)
+        else renderLine2(line, false, false)
     });
 }
 
@@ -141,8 +142,13 @@ function renderLines2() {
 function renderLine2(line, isHovered, isSelected) {
     const { size, pos } = line
 
-    gMemeCtx.font = `${line.size}px impact`;
-    gMemeCtx.textAlign = "left";
+    gMemeCtx.font = `${line.size}px ${line.fontFamily}`;
+    gMemeCtx.textAlign = line.texAlignment;
+
+    if (line.texAlignment === 'right') gMemeCtx.textAlign = 'left';
+    else if (line.texAlignment === 'left') gMemeCtx.textAlign = 'right'
+    else gMemeCtx.textAlign = 'center'
+
     gMemeCtx.textBaseline = "top";
 
     const metrics = gMemeCtx.measureText(line.txt);
@@ -150,14 +156,19 @@ function renderLine2(line, isHovered, isSelected) {
     gMemeCtx.strokeStyle = 'black'
 
     if (isSelected) {
-        gMemeCtx.strokeStyle = "grey";
+        gMemeCtx.strokeStyle = "white";
 
         gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
         gMemeCtx.lineWidth = 0.5;
         const padding = 10;
 
-        gMemeCtx.strokeRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
-        gMemeCtx.fillRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
+        const rectStartPosX = getRectStartPos(line, textWidth, padding)
+        const rectStartPosY = pos.y - padding
+        const rectWidth = textWidth + (padding * 2)
+        const rectHeight = size + (padding * 2)
+
+        gMemeCtx.strokeRect(rectStartPosX, rectStartPosY, rectWidth, rectHeight)
+        gMemeCtx.fillRect(rectStartPosX, rectStartPosY, rectWidth, rectHeight)
     }
     if (isHovered || isSelected) {
         gMemeCtx.strokeStyle = "red";
@@ -177,6 +188,23 @@ function renderLine2(line, isHovered, isSelected) {
 
     gMemeCtx.strokeText(line.txt, pos.x, pos.y)
     gMemeCtx.fillText(line.txt, pos.x, pos.y)
+}
+
+function getRectStartPos(line, textWidth, padding) {
+    const { pos, texAlignment } = line
+
+    switch (texAlignment) {
+        case 'center':
+            var rectStartPosX = pos.x - (textWidth / 2) - padding
+            break;
+        case 'left':
+            var rectStartPosX = pos.x - (textWidth) - padding
+            break;
+        case 'right':
+            var rectStartPosX = pos.x - padding
+            break
+    }
+    return rectStartPosX
 }
 
 // function renderLine(line, isBordered) {
@@ -231,12 +259,12 @@ function onSwitchLine(ev) {
     const { selectedLineIdx, isLineSelected } = getMeme()
     if (isLineSelected) return
 
-    gCurrLineIdx++
+    gHoveredLineIdx++
     document.querySelector('.download-btn').classList.add('disabled')
 
     gIsEditMode = true
-    if (gCurrLineIdx > meme.lines.length - 1) gCurrLineIdx = 0
-    switchLines(gCurrLineIdx)
+    if (gHoveredLineIdx > meme.lines.length - 1) gHoveredLineIdx = 0
+    switchLines(gHoveredLineIdx)
     renderMeme(ev)
     clearTextEdit()
 }
@@ -255,9 +283,10 @@ function onAddLine(ev) {
 }
 
 function onDown(ev) {
-    if (gCurrLineIdx < 0) {
+    if (gHoveredLineIdx < 0) {
         console.log('changing gIsEdit')
         document.querySelector('.download-btn').classList.remove('disabled')
+        renderLineEditor(true)
 
         gIsEditMode = false
         renderMeme()
@@ -265,11 +294,35 @@ function onDown(ev) {
         document.querySelector('.download-btn').classList.add('disabled')
 
         gIsEditMode = true
-        switchLines(gCurrLineIdx)
+        switchLines(gHoveredLineIdx)
+        renderLineEditor(false)
+
         // renderMeme()
         clearTextEdit()
     }
 }
+
+function renderLineEditor(isReset) {
+    const { lines, selectedLineIdx } = getMeme()
+    const selectedLine = lines[selectedLineIdx]
+
+    const elLineEditor = document.querySelector('.line-editor')
+    const elLineEditorOptions = elLineEditor.querySelector('.line-editor-options')
+    const LineEditorFont = elLineEditorOptions.querySelector('.line-editor-font')
+
+    if (isReset) {
+        LineEditorFont.selectedIndex = 0
+        elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
+
+    } else {
+        const options = [...LineEditorFont.options]
+        LineEditorFont.selectedIndex = options.findIndex(option => option.value === selectedLine.fontFamily)
+
+        elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
+        elLineEditorOptions.querySelector(`.align-${selectedLine.texAlignment}`).classList.add('selected')
+    }
+}
+
 
 function getTextWidth(line, scale) {
     const metrics = gMemeCtx.measureText(line.txt);
@@ -304,27 +357,54 @@ function isMouseOnLine2(ev, line) {
     // console.log('(pos.x * gScale)+metrics.width',(pos.x+metrics.width)*gScale)
     // console.log('pos.x + metrics.width',pos.x + metrics.width)
     // console.log('')
+    const {
+        rectStartPosX,
+        rectEndPosX,
+        rectStartPosY,
+        rectEndPosY
+    } = getLinePixels(line)
     return (
-        offsetX >= pos.x * gScale &&
-        offsetX <= (pos.x + metrics.width) * gScale &&
-        offsetY >= pos.y * gScale &&
-        offsetY <= (pos.y + size) * gScale)
+        offsetX >= rectStartPosX * gScale &&
+        offsetX <= rectEndPosX * gScale &&
+        offsetY >= rectStartPosY * gScale &&
+        offsetY <= rectEndPosY * gScale)
 }
 
+function getLinePixels(line) {
+    const { pos, size } = line
+
+    const padding = 10
+    const metrics = gMemeCtx.measureText(line.txt);
+    const textWidth = metrics.width;
+
+    const rectStartPosX = getRectStartPos(line, textWidth, padding) + padding
+    const rectEndPosX = rectStartPosX + textWidth
+    const rectStartPosY = pos.y
+    const rectEndPosY = rectStartPosY + size
+
+    return {
+        rectStartPosX,
+        rectEndPosX,
+        rectStartPosY,
+        rectEndPosY
+    }
+}
 function onHighlightLine(ev) {
     const { lines, selectedLineIdx, isLineSelected } = getMeme()
     if (isLineSelected) return
     gHighlightedLineIdx = selectedLineIdx
 
-    gCurrLineIdx = lines.findIndex(line => isMouseOnLine2(ev, line))
+    gHoveredLineIdx = lines.findIndex(line => isMouseOnLine2(ev, line))
     renderMeme()
 }
 
 function onOpenGallery() {
     document.querySelector('.editor').classList.add('hidden')
     document.querySelector('.gallery').classList.remove('hidden')
+
     gElMemeCanvas.width = 400
     gElMemeCanvas.height = 400
+
     gScale = 1
 }
 
@@ -337,4 +417,21 @@ function getNormTextMeasures(line) {
     const normY = pos.y * gElMemeCanvas.height
 
     return { scale, normSize, normX, normY }
+}
+
+function onChangeFontFamily(elFontFamilySelect) {
+    if (!gIsEditMode) return
+
+    setLineFontFamily(elFontFamilySelect.value)
+    renderMeme()
+}
+
+function onAlignText(alignment, elAlignTextBtn) {
+    if (!gIsEditMode) return
+
+    setLineTextAlign(alignment)
+    renderMeme()
+
+    document.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
+    elAlignTextBtn.classList.add('selected')
 }
