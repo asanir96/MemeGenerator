@@ -2,6 +2,8 @@
 
 
 var gElMemeCanvas
+var gCurrMemeID
+var gMousePos
 var gMemeCtx
 var gLinPos = { x: 20, y: 20 }
 var gLineIdx
@@ -10,90 +12,19 @@ var gHighlightedLineIdx = 0
 var gIsEditMode = false
 var gIsHighlightMode = false
 
-function addEventListeners() {
-    const elEditor = document.querySelector('.editor')
-    const elLineEditor = elEditor.querySelector('.line-editor')
-    const elEditorActions = elEditor.querySelector('.editor-actions')
-    const elBackBtn = elEditor.querySelector('.editor-back-btn')
-    elEditor.addEventListener('click', onStopEdit)
-
-    elLineEditor.addEventListener('mouseleave', addStopEditListeners)
-    elLineEditor.addEventListener('mouseover', (e) => onRemoveListeners(e))
-
-    elEditorActions.addEventListener('mouseleave', addStopEditListeners)
-    elEditorActions.addEventListener('mouseover', (e) => onRemoveListeners(e))
-
-    elBackBtn.addEventListener('mouseleave', addStopEditListeners)
-    elBackBtn.addEventListener('mouseover', (e) => onRemoveListeners(e))
-
-
-    document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
-        document.querySelector('.download-btn').classList.add('disabled')
-        gIsEditMode = true
-        renderMeme(e)
-    })
-    document.querySelector('.line-text-edit').addEventListener('input', (e) => {
-        setLineTxt(e.target.value)
-        renderMeme(e)
-
-    })
-
-    gElMemeCanvas.addEventListener('mousedown', (e) => onDown(e))
-    document.querySelector('.line-text-edit').addEventListener('blur', onTextEditBlur)
-
-    gElMemeCanvas.addEventListener('mousemove', (e) => {
-
-        gHoveredLineIdx = -1
-        elEditor.removeEventListener('click', onStopEdit)
-        document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
-    }
-    )
-
-    gElMemeCanvas.addEventListener('mouseleave', addStopEditListeners)
-
-
-
-}
-
-function onRemoveListeners(ev) {
-
-    const child = ev.target.closest('button, input,select')
-    if (!child) return
-
-    document.querySelector('.line-text-edit').removeEventListener('blur', onTextEditBlur)
-    document.querySelector('.editor').removeEventListener('click', onStopEdit)
-}
-
-function addStopEditListeners() {
-    document.querySelector('.line-text-edit').addEventListener('blur', onTextEditBlur)
-    document.querySelector('.editor').addEventListener('click', onStopEdit)
-
-}
-
-function onStopEdit() {
-    console.log('changing gIsEdit')
-    gHoveredLineIdx = -1
-    document.querySelector('.download-btn').classList.remove('disabled')
-    gIsEditMode = false
-
-    renderMeme()
-    clearTextEdit()
-}
-
-function onTextEditBlur() {
-    console.log('changing gIsEdit')
-    document.querySelector('.download-btn').classList.add('disabled')
-    gIsEditMode = false
-    renderMeme()
-    clearTextEdit()
+function InitEditor() {
+    // addEditorListeners()
 }
 
 function renderMeme(ev) {
-    const meme = getMeme()
+    const meme = getSelectedMeme()
     const img = new Image()
+
     img.onload = () => {
         renderImg(img)
-        renderLines2()
+        gMemeCtx.scale(gScale, gScale)
+        setMemeScale(gScale)
+        renderLines(meme)
     }
 
     img.src = gImgs.find(img => img.id === meme.selectedImgId).url
@@ -104,42 +35,18 @@ function renderImg(img) {
     gMemeCtx.drawImage(img, 0, 0, gElMemeCanvas.width, gElMemeCanvas.height)
 }
 
-function renderLines2() {
-    const { lines, selectedLineIdx } = getMeme()
-    gMemeCtx.scale(gScale, gScale)
+function renderLines(meme) {
+    const { lines, selectedLineIdx, scale } = meme
 
     lines.forEach((line, idx) => {
-        if (gIsEditMode && idx === selectedLineIdx) renderLine2(line, false, true)
-        else if (gHoveredLineIdx >= 0 &&
-            gHoveredLineIdx === idx) renderLine2(line, true, false)
-        else renderLine2(line, false, false)
+        var { isHovered } = line
+        var isSelected = idx === selectedLineIdx
+
+        renderLine(line, isHovered, isSelected, scale)
     });
 }
 
-// function renderLines() {
-//     const { lines } = getMeme()
-
-//     lines.forEach(line => {
-//         const { normSize, normX, normY } = getNormTextMeasures(line)
-
-//         gMemeCtx.font = `${normSize}px impact`;
-//         gMemeCtx.textAlign = "left";
-//         gMemeCtx.textBaseline = "top";
-
-//         const metrics = gMemeCtx.measureText(line.txt);
-//         const textWidth = metrics.width;
-
-//         gMemeCtx.strokeStyle = 'black'
-//         gMemeCtx.lineWidth = 4
-
-//         gMemeCtx.fillStyle = line.color;
-
-//         gMemeCtx.strokeText(line.txt, normX, normY)
-//         gMemeCtx.fillText(line.txt, normX, normY)
-//     });
-// }
-
-function renderLine2(line, isHovered, isSelected) {
+function renderLine(line, isHovered, isSelected, scale) {
     const { size, pos } = line
 
     gMemeCtx.font = `${line.size}px ${line.fontFamily}`;
@@ -149,10 +56,11 @@ function renderLine2(line, isHovered, isSelected) {
     else if (line.texAlignment === 'left') gMemeCtx.textAlign = 'right'
     else gMemeCtx.textAlign = 'center'
 
-    gMemeCtx.textBaseline = "top";
+    gMemeCtx.textBaseline = "middle";
 
     const metrics = gMemeCtx.measureText(line.txt);
     const textWidth = metrics.width;
+
     gMemeCtx.strokeStyle = 'black'
 
     if (isSelected) {
@@ -163,27 +71,19 @@ function renderLine2(line, isHovered, isSelected) {
         const padding = 10;
 
         const rectStartPosX = getRectStartPos(line, textWidth, padding)
-        const rectStartPosY = pos.y - padding
+        const rectStartPosY = pos.y - ((size / 2)) - padding
         const rectWidth = textWidth + (padding * 2)
         const rectHeight = size + (padding * 2)
 
         gMemeCtx.strokeRect(rectStartPosX, rectStartPosY, rectWidth, rectHeight)
         gMemeCtx.fillRect(rectStartPosX, rectStartPosY, rectWidth, rectHeight)
     }
+
     if (isHovered || isSelected) {
         gMemeCtx.strokeStyle = "red";
-
-        // gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
-        // gMemeCtx.lineWidth = 0.5;
-        // const padding = 10;
-
-        // gMemeCtx.strokeRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
-        // gMemeCtx.fillRect(pos.x - padding, pos.y - padding, textWidth + (padding * 2), size + (padding * 2))
     }
 
-    // gMemeCtx.strokeStyle = 'black'
     gMemeCtx.lineWidth = 4
-
     gMemeCtx.fillStyle = line.color;
 
     gMemeCtx.strokeText(line.txt, pos.x, pos.y)
@@ -207,64 +107,40 @@ function getRectStartPos(line, textWidth, padding) {
     return rectStartPosX
 }
 
-// function renderLine(line, isBordered) {
-//     const { normSize, normX, normY } = getNormTextMeasures(line)
-
-//     gMemeCtx.font = `${normSize}px impact`;
-//     gMemeCtx.textAlign = "left";
-//     gMemeCtx.textBaseline = "top";
-
-//     const metrics = gMemeCtx.measureText(line.txt);
-//     const textWidth = metrics.width;
-
-//     if (isBordered) {
-//         gMemeCtx.strokeStyle = "grey";
-
-//         gMemeCtx.fillStyle = 'rgb(0 0 0 / 20%)'
-//         gMemeCtx.lineWidth = 0.5;
-//         const padding = 10;
-
-//         gMemeCtx.strokeRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
-//         gMemeCtx.fillRect(normX - padding, normY - padding, textWidth + (padding * 2), normSize + (padding * 2))
-//     }
-
-//     gMemeCtx.strokeStyle = 'black'
-//     gMemeCtx.lineWidth = 4
-
-//     gMemeCtx.fillStyle = line.color;
-
-//     gMemeCtx.strokeText(line.txt, normX, normY)
-//     gMemeCtx.fillText(line.txt, normX, normY)
-// }
-
 function onDownloadMeme(elLink, ev) {
-    if (gIsEditMode) {
+    const meme = getSelectedMeme()
+    const { selectedLine } = meme
+
+    if (selectedLine !== null) {
         ev.preventDefault()
         return
     }
+
     elLink.href = gElMemeCanvas.toDataURL()
     elLink.download = `my-meme`
 }
 
 function onChangeFontSize(ev, direction) {
-    console.log(ev.type)
-    if (!gIsEditMode) return
+    const meme = getSelectedMeme()
+    const { selectedLineIdx } = meme
+
+    if (selectedLineIdx === null) return
 
     changeFontSize(direction)
     renderMeme(ev)
 }
 
 function onSwitchLine(ev) {
-    const meme = getMeme()
-    const { selectedLineIdx, isLineSelected } = getMeme()
-    if (isLineSelected) return
+    const meme = getSelectedMeme()
 
-    gHoveredLineIdx++
+    var { selectedLineIdx, lines } = meme
+
+    selectedLineIdx = selectedLineIdx === null ? 0 : ++selectedLineIdx
+    if (selectedLineIdx > lines.length - 1) selectedLineIdx = 0
+
+    switchLines(selectedLineIdx)
     document.querySelector('.download-btn').classList.add('disabled')
-
-    gIsEditMode = true
-    if (gHoveredLineIdx > meme.lines.length - 1) gHoveredLineIdx = 0
-    switchLines(gHoveredLineIdx)
+    document.querySelector('.save-btn').classList.add('disabled')
     renderMeme(ev)
     clearTextEdit()
 }
@@ -275,35 +151,17 @@ function clearTextEdit() {
 }
 
 function onAddLine(ev) {
-    const { lines } = getMeme()
+    const meme = getSelectedMeme()
+    const { lines } = meme
 
     addLine()
     switchLines(lines.length - 1)
     renderMeme(ev)
 }
 
-function onDown(ev) {
-    if (gHoveredLineIdx < 0) {
-        console.log('changing gIsEdit')
-        document.querySelector('.download-btn').classList.remove('disabled')
-        renderLineEditor(true)
-
-        gIsEditMode = false
-        renderMeme()
-    } else {
-        document.querySelector('.download-btn').classList.add('disabled')
-
-        gIsEditMode = true
-        switchLines(gHoveredLineIdx)
-        renderLineEditor(false)
-
-        // renderMeme()
-        clearTextEdit()
-    }
-}
-
 function renderLineEditor(isReset) {
-    const { lines, selectedLineIdx } = getMeme()
+    const meme = getSelectedMeme()
+    const { lines, selectedLineIdx } = meme
     const selectedLine = lines[selectedLineIdx]
 
     const elLineEditor = document.querySelector('.line-editor')
@@ -323,111 +181,52 @@ function renderLineEditor(isReset) {
     }
 }
 
+function onCanvasHover(ev) {
+    const meme = getSelectedMeme()
+    const { lines, scale } = meme
 
-function getTextWidth(line, scale) {
-    const metrics = gMemeCtx.measureText(line.txt);
-    return metrics.width * scale;
-}
-
-function isMouseOnLine(ev, line) {
-    const { offsetX, offsetY } = ev
-    const { scale, normSize, normX, normY } = getNormTextMeasures(line)
-
-    const textWidth = getTextWidth(line, scale)
-
-    return (
-        offsetX >= normX &&
-        offsetX <= normX + textWidth &&
-        offsetY >= normY &&
-        offsetY <= normY + normSize)
-}
-
-function isMouseOnLine2(ev, line) {
-    const { offsetX, offsetY } = ev
-    // const { scale, normSize, normX, normY } = getNormTextMeasures(line)
-    const { size, pos } = line
-    const metrics = gMemeCtx.measureText(line.txt);
-    // console.log('offsetY',offsetY)
-    // console.log('pos.y',pos.y)
-    // console.log('pos.y + size',pos.y + size)
-    // console.log('')
-    // console.log('offsetX',offsetX)
-    // console.log('pos.x',pos.x)
-    // console.log('pos.x * gScale',pos.x *gScale)
-    // console.log('(pos.x * gScale)+metrics.width',(pos.x+metrics.width)*gScale)
-    // console.log('pos.x + metrics.width',pos.x + metrics.width)
-    // console.log('')
-    const {
-        rectStartPosX,
-        rectEndPosX,
-        rectStartPosY,
-        rectEndPosY
-    } = getLinePixels(line)
-    return (
-        offsetX >= rectStartPosX * gScale &&
-        offsetX <= rectEndPosX * gScale &&
-        offsetY >= rectStartPosY * gScale &&
-        offsetY <= rectEndPosY * gScale)
-}
-
-function getLinePixels(line) {
-    const { pos, size } = line
-
-    const padding = 10
-    const metrics = gMemeCtx.measureText(line.txt);
-    const textWidth = metrics.width;
-
-    const rectStartPosX = getRectStartPos(line, textWidth, padding) + padding
-    const rectEndPosX = rectStartPosX + textWidth
-    const rectStartPosY = pos.y
-    const rectEndPosY = rectStartPosY + size
-
-    return {
-        rectStartPosX,
-        rectEndPosX,
-        rectStartPosY,
-        rectEndPosY
+    const draggedLineIdx = lines.findIndex(line => line.isDrag)
+    if (draggedLineIdx >= 0) {
+        onMove(ev)
+        return
     }
-}
-function onHighlightLine(ev) {
-    const { lines, selectedLineIdx, isLineSelected } = getMeme()
-    if (isLineSelected) return
-    gHighlightedLineIdx = selectedLineIdx
 
-    gHoveredLineIdx = lines.findIndex(line => isMouseOnLine2(ev, line))
+    const { offsetX, offsetY } = ev
+    const mousePos = { x: offsetX, y: offsetY }
+
+    lines.forEach((line, lineIdx) => {
+        const lineWidth = gMemeCtx.measureText(line.txt).width * scale
+        if (isLineHovered(mousePos, lineIdx, lineWidth)) {
+            setLineHovered(lineIdx, true)
+            document.body.style.cursor = 'grab'
+            console.log('hi')
+        }
+        else {
+            setLineHovered(lineIdx, false)
+            document.body.style.cursor = 'auto'
+        }
+    })
+
     renderMeme()
 }
 
-function onOpenGallery() {
-    document.querySelector('.editor').classList.add('hidden')
-    document.querySelector('.gallery').classList.remove('hidden')
+function onCloseEditor(ev) {
+    ev.stopPropagation()
+    removeEditorListeners()
+    openGallery()
 
-    gElMemeCanvas.width = 400
-    gElMemeCanvas.height = 400
+    saveMeme()
+    gElMemeCanvas.width = 300
+    gElMemeCanvas.height = 150
 
     gScale = 1
 }
 
-function getNormTextMeasures(line) {
-    const { size, pos } = line
-    const scale = gElMemeCanvas.width / gInitCanvasWidth
-
-    const normSize = size * scale
-    const normX = pos.x * gElMemeCanvas.width
-    const normY = pos.y * gElMemeCanvas.height
-
-    return { scale, normSize, normX, normY }
-}
-
-function onChangeFontFamily(elFontFamilySelect) {
-    if (!gIsEditMode) return
-
-    setLineFontFamily(elFontFamilySelect.value)
-    renderMeme()
-}
-
 function onAlignText(alignment, elAlignTextBtn) {
-    if (!gIsEditMode) return
+    const meme = getSelectedMeme()
+    const { selectedLineIdx } = meme
+
+    if (selectedLineIdx === null) return
 
     setLineTextAlign(alignment)
     renderMeme()
@@ -436,10 +235,108 @@ function onAlignText(alignment, elAlignTextBtn) {
     elAlignTextBtn.classList.add('selected')
 }
 
-function onDeleteLine(){
-    if (!gIsEditMode) return
+function onDeleteLine() {
+    const meme = getSelectedMeme()
+    const { selectedLineIdx } = meme
 
-    const {selectedLineIdx} = getMeme()
+    if (selectedLineIdx === null) return
+
     deleteLine(selectedLineIdx)
+
+    setLineSelected(null)
+    renderLineEditor(true)
+
+    document.querySelectorAll('.export-btn').forEach(btn => btn.classList.remove('disabled'))
+
+    renderMeme()
+}
+
+function onSaveMeme() {
+    const meme = getSelectedMeme()
+    const { selectedLineIdx } = meme
+
+    if (selectedLineIdx !== null) return
+
+    saveMeme()
+}
+
+function saveMeme() {
+    var data = gElMemeCanvas.toDataURL('image/jpeg', 0.5)
+
+    setMemeData(data)
+    gMemeCtx.scale(gScale, gScale)
+}
+
+
+function onDown(ev) {
+
+    // Save the position we started from...
+    // Get the event position from mouse or touch
+
+    const meme = getSelectedMeme()
+    const { lines, scale } = meme
+    const hoveredLineIndex = lines.findIndex(line => line.isHovered)
+
+    const { offsetX, offsetY } = ev
+    gMousePos = { x: offsetX, y: offsetY }
+
+    if (hoveredLineIndex < 0) {
+        setLineSelected(null)
+        renderLineEditor(true)
+
+        document.querySelectorAll('.export-btn').forEach(btn => btn.classList.remove('disabled'))
+
+        renderMeme()
+        return
+    }
+
+    setLineSelected(hoveredLineIndex)
+    renderLineEditor(false)
+
+    document.querySelectorAll('.export-btn').forEach(btn => btn.classList.add('disabled'))
+    setLineDrag(true)
+    document.body.style.cursor = 'grabbing'
+    renderMeme()
+}
+
+function onMove(ev) {
+    const meme = getSelectedMeme()
+    const { lines, selectedLineIdx } = meme
+    const { isDrag } = lines[selectedLineIdx]
+
+    if (!isDrag) return
+
+    const { offsetX, offsetY } = ev
+    const pos = { x: offsetX, y: offsetY }
+
+    // Calc the delta, the diff we moved
+    const dx = pos.x - gMousePos.x
+    const dy = pos.y - gMousePos.y
+
+    moveLine(dx, dy)
+
+    // Save the last pos, we remember where we`ve been and move accordingly
+    gMousePos = pos
+
+    // The canvas is rendered again after every move
+    renderMeme()
+}
+
+function onUp() {
+    const meme = getSelectedMeme()
+    if (meme.selectedLineIdx === null) return
+
+    setLineDrag(false)
+    document.body.style.cursor = 'grab'
+}
+
+function onChangeFontFamily(elFontSelection) {
+    const meme = getSelectedMeme()
+    const { selectedLine } = meme
+
+    if (selectedLine === null) return
+
+    const selectedFont = elFontSelection.value
+    setLineFontFamily(selectedFont)
     renderMeme()
 }

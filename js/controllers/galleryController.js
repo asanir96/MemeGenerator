@@ -29,20 +29,25 @@ var gImgs = [
 var gInitCanvasWidth
 var gScale = 1
 
-function onInit() {
+function initGallery() {
     gElMemeCanvas = document.querySelector('canvas')
     gMemeCtx = gElMemeCanvas.getContext('2d')
-    renderMeme()
+
+    gMemeCtx.font = '16px impact'
+    gMemeCtx.measureText('')
+
     gInitCanvasWidth = gElMemeCanvas.width
     renderGallery()
-    addEventListeners()
+    addEditorListeners()
 }
 
 
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gScale = elContainer.clientWidth / gElMemeCanvas.width
+
     gElMemeCanvas.width = elContainer.clientWidth
+    gElMemeCanvas.height = elContainer.clientHeight
 }
 
 
@@ -57,14 +62,47 @@ function renderGallery() {
 }
 
 function onImgSelect(imgId) {
+    createMeme()
     setImg(imgId)
-    showEditor()
+
+    showEditor(gCurrMemeID)
 }
 
-function showEditor() {
+function showEditor(memeId) {
     document.querySelector('.gallery').classList.add('hidden')
+    document.querySelector('.memes').classList.add('hidden')
     document.querySelector('.editor').classList.remove('hidden')
 
-    resizeCanvas()
-    renderMeme()
+    if (memeId) {
+        setSelectedMeme(memeId)
+    }
+
+    const meme = getSelectedMeme()
+    const img = new Image()
+    img.onload = () => {
+        resizeCanvas()
+        renderImg(img)
+
+        gMemeCtx.scale(gScale, gScale)
+        setMemeScale(gScale)
+
+        renderLines(meme)
+    }
+    renderLineEditor(true)
+    img.src = gImgs.find(img => img.id === meme.selectedImgId).url
+}
+
+function onOpenGallery() {
+    openGallery()
+}
+
+function openGallery() {
+    // Switch between sections
+    document.querySelector('.editor').classList.add('hidden')
+    document.querySelector('.memes').classList.add('hidden')
+    document.querySelector('.gallery').classList.remove('hidden')
+
+    // Highlighting relevant nav button
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('selected'))
+    document.querySelector('.nav-btn.open-gallery').classList.add('selected')
 }

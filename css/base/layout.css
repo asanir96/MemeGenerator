@@ -47,7 +47,8 @@ aside .download-btn {
     display: grid;
 }
 
-.gallery {
+.gallery,
+.memes {
     grid-column: 2/4;
 }
 

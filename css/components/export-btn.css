@@ -1,4 +1,4 @@
-.download-btn {
+.export-btn {
     grid-column: 2;
     opacity: 1;
     align-self: end;
@@ -16,7 +16,7 @@
     transition: 200ms ease;
 }
 
-.download-btn.disabled {
+.export-btn.disabled {
     background-color: grey;
     opacity: 0.2;
     cursor: not-allowed;

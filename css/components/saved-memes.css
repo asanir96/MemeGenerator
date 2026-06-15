@@ -1,0 +1,16 @@
+.memes {
+    column-width: 210px;
+    column-gap: 25px;
+    column-count: auto;
+}
+
+.memes>img {
+    width: 100%;
+    margin-block-end: 20px;
+    border-radius: 15px;
+}
+
+.memes>img:hover{
+    opacity: 70%;
+    cursor: pointer;
+}

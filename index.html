@@ -14,16 +14,18 @@
         <div class="logo"><img src="images/logo/aeae63780efb67018fae1f37db1aa4731bc681a9.png" alt=""></div>
         <nav class="main-nav hidden">
             <ul class="clean-list ">
-                <li><button class="clean-btn">Memes</button></li>
-                <li><button class="clean-btn selected">Gallery</button></li>
-                <li><button class="clean-btn">About</button></li>
+                <li><button class="nav-btn open-memes clean-btn" onclick="onOpenMemesSection()">Memes</button></li>
+                <li><button class="nav-btn open-gallery clean-btn selected" onclick="onOpenGallery()">Gallery</button></li>
+                <li><button class="nav-btn open-about clean-btn" >About</button></li>
             </ul>
         </nav>
         <button class="open-nav-btn position-absolute"> <i class="fa-solid fa-align-justify"></i></button>
     </header>
 
     <main class="subgrid">
-        <section class="memes hidden"></section>
+        <section class="memes hidden">
+
+        </section>
         <section class="gallery">
             <fieldset class="gallery-search">
                 <input class="clean-input" type="text" placeholder="search">
@@ -31,11 +33,12 @@
             <section class='gallery-container'></section>
         </section>
         <section class="editor hidden editor-layout">
-            <button class="editor-back-btn" onclick="onOpenGallery()">
+            <button class="editor-back-btn" onclick="onCloseEditor(event)">
                 <i class="fa-solid fa-chevron-left"></i>Back to gallery</button>
 
-            <div onmousemove="onHighlightLine(event)" class="canvas-container">
-                <canvas></canvas>
+            <!-- <div onmousemove="onHighlightLine(event)" class="canvas-container"> -->
+            <div class="canvas-container">
+                <canvas onmouseup="onUp(event)" onmousemove = "onCanvasHover(event)"></canvas>
             </div>
 
             <aside class="editor-aside-layout position-relative">
@@ -115,15 +118,19 @@
                 <div class="export-buttons">
                     <a href="#" class="export-btn download-btn" onclick="onDownloadMeme(this,event)"
                         download="file-name">Download</a>
-
+                    <button class="export-btn save-btn" onclick="onSaveMeme()">Save</button>
                 </div>
             </aside>
 
         </section>
     </main>
+    <script src="js/services/utileService.js"></script>
+    <script src="js/services/storageService.js"></script>
     <script src="js/services/memeService.js"></script>
     <script src="js/controllers/galleryController.js"></script>
     <script src="js/controllers/memeController.js"></script>
+    <script src="js/controllers/savedMemesController.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
