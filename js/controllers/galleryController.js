@@ -30,6 +30,7 @@ var gInitCanvasWidth
 var gScale = 1
 
 function initGallery() {
+    gScale = 1
     gElMemeCanvas = document.querySelector('canvas')
     gMemeCtx = gElMemeCanvas.getContext('2d')
 
@@ -63,19 +64,23 @@ function renderGallery() {
 
 function onImgSelect(imgId) {
     createMeme()
+    const meme = getMemeByIdx(-1)
+    setSelectedMemeIdx(meme.id)
     setImg(imgId)
 
     showEditor(gCurrMemeID)
 }
 
-function showEditor(memeId) {
+function showEditor() {
     document.querySelector('.gallery').classList.add('hidden')
     document.querySelector('.memes').classList.add('hidden')
     document.querySelector('.editor').classList.remove('hidden')
 
-    if (memeId) {
-        setSelectedMeme(memeId)
-    }
+    // if (memeId) {
+    //     setSelectedMeme(memeId)
+    //     const meme = getSelectedMeme()
+    //     console.log(meme)
+    // }
 
     const meme = getSelectedMeme()
     const img = new Image()
@@ -97,6 +102,11 @@ function onOpenGallery() {
 }
 
 function openGallery() {
+    setSelectedMemeIdx(null)
+    gElMemeCanvas.width = 300
+    gElMemeCanvas.height = 150
+    gScale = 1
+
     // Switch between sections
     document.querySelector('.editor').classList.add('hidden')
     document.querySelector('.memes').classList.add('hidden')

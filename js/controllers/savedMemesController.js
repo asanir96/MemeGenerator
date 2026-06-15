@@ -1,6 +1,11 @@
 'use strict'
 
 function onOpenMemesSection() {
+    setSelectedMemeIdx()
+    gElMemeCanvas.width = 300
+    gElMemeCanvas.height = 150
+
+    gScale = 1
     // Switch between sections
     document.querySelector('.editor').classList.add('hidden')
     document.querySelector('.gallery').classList.add('hidden')
@@ -15,13 +20,17 @@ function onOpenMemesSection() {
 function renderSavedMemes() {
     const memes = getMemes().memeList
 
-
     document.querySelector('.memes').innerHTML = memes.map(meme => {
         if (meme.dataUrl) {
             return `
-        <img class="saved-meme-img" src="${meme.dataUrl}" alt="" onclick="showEditor('${meme.id}')">
+        <img class="saved-meme-img" src="${meme.dataUrl}" alt="" onclick="onMemeSelect('${meme.id}')">
         `
         }
     }).join('')
         ;
+}
+
+function onMemeSelect(memeId) {
+    setSelectedMemeIdx(memeId)
+    showEditor(gCurrMemeID)
 }

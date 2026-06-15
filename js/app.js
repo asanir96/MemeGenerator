@@ -31,10 +31,9 @@ function addEditorListeners() {
         gIsEditMode = true
         renderMeme(e)
     })
-    document.querySelector('.line-text-edit').addEventListener('input', (e) => {
-        setLineTxt(gCurrMemeID, e.target.value)
-        renderMeme(e)
-    })
+
+    document.querySelector('.line-text-edit').addEventListener('input', onTextInput)
+    document.querySelector('.line-text-edit').addEventListener('focus', onTextClick)
 
     gElMemeCanvas.addEventListener('mousedown', (e) => onDown(e))
     document.querySelector('.line-text-edit').addEventListener('blur', disableEdit)
@@ -72,11 +71,13 @@ function addClickHandler() {
 }
 
 function onStopEdit() {
-    console.log('changing gIsEdit')
-    gHoveredLineIdx = -1
+    const meme = getSelectedMeme()
+    const { selectedLineIdx } = meme
+
+    document.querySelectorAll('.export-btn').forEach(btn => btn.classList.remove('disabled'))
     document.querySelector('.download-btn').classList.remove('disabled')
-    gIsEditMode = false
-    saveMeme()
+    setLineSelected(null)
+    renderLineEditor(true)
     renderMeme()
     clearTextEdit()
 }
@@ -110,12 +111,12 @@ function getEvPos(ev) {
     // Check if it is a touch event
     if (TOUCH_EVENTS.includes(ev.type)) {
         ev.preventDefault() // Stop double-firing mouse fallback events
-        
+
         const touch = ev.targetTouches[0]
-        
+
         // Get the absolute position of the canvas on the screen
         const rect = gElCanvas.getBoundingClientRect()
-        
+
         // Subtract canvas screen coordinates from touch screen coordinates
         return {
             x: touch.clientX - rect.left,

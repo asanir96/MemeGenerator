@@ -50,6 +50,13 @@ function createMeme() {
     _saveMemes()
 }
 
+function setSelectedMemeIdx(memeId) {
+    if (!memeId) gMemes.selectedMemeIdx = null
+    else gMemes.selectedMemeIdx = gMemes.memeList.findIndex(meme => meme.id === memeId)
+    console.log(getSelectedMeme())
+
+}
+
 function getMemes() {
     return gMemes
 }
@@ -62,13 +69,18 @@ function getMemeById(memeId) {
     return gMemes.find(meme => meme.id === memeId)
 }
 
+function getMemeByIdx(memeIdx) {
+    return gMemes.memeList.at(memeIdx)
+}
+
 function setSelectedMeme(memeId) {
     gMemes.selectedMemeIdx = gMemes.memeList.findIndex(meme => meme.id === memeId)
     console.log('gMemes.selectedMemeIdx', gMemes.selectedMemeIdx)
 }
 
-function setLineTxt(memeID, text) {
+function setLineTxt(text) {
     const meme = getSelectedMeme()
+    console.log(meme)
     meme.lines[meme.selectedLineIdx].txt = text
     _saveMemes()
 }
@@ -79,7 +91,7 @@ function setLineFontFamily(family) {
 }
 
 function setImg(imgId) {
-    const meme = gMemes.memeList[gMemes.selectedMemeIdx]
+    const meme = getSelectedMeme()
     meme.selectedImgId = imgId
 }
 
@@ -132,8 +144,8 @@ function _createLine(txt, size, color, fontFamily, texAlignment, pos) {
 
 function deleteLine(idx) {
     const meme = getSelectedMeme()
-    const {lines} = meme
-    lines.splice(idx,1)
+    const { lines } = meme
+    lines.splice(idx, 1)
 }
 
 function _saveMemes() {
@@ -157,7 +169,7 @@ function isLineHovered(mousePos, lineIdx, lineWidth) {
 
     if (texAlignment === 'center') {
         return distanceX <= ((lineWidth / 2)) &&
-            distanceY <= ((size/2)) * scale
+            distanceY <= ((size / 2)) * scale
     } else {
         return distanceX <= (lineWidth) &&
             distanceY <= ((size / 2)) * scale
@@ -165,6 +177,8 @@ function isLineHovered(mousePos, lineIdx, lineWidth) {
 }
 
 function getSelectedMeme() {
+    if (gMemes.selectedMemeIdx === null) return
+
     return gMemes.memeList[gMemes.selectedMemeIdx]
 }
 

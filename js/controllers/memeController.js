@@ -107,6 +107,25 @@ function getRectStartPos(line, textWidth, padding) {
     return rectStartPosX
 }
 
+function onTextInput(ev) {
+    const meme = getSelectedMeme()
+    const { selectedLineIdx } = meme
+
+    if (selectedLineIdx === null) return
+
+    setLineTxt(ev.target.value)
+    renderMeme()
+}
+
+function onTextClick(ev) {
+    const meme = getSelectedMeme()
+    const { selectedLineIdx } = meme
+
+    if (selectedLineIdx === null) {
+        setLineSelected(0)
+        renderMeme()
+    }
+}
 function onDownloadMeme(elLink, ev) {
     const meme = getSelectedMeme()
     const { selectedLine } = meme
@@ -161,16 +180,19 @@ function onAddLine(ev) {
 
 function renderLineEditor(isReset) {
     const meme = getSelectedMeme()
+    console.log(meme)
     const { lines, selectedLineIdx } = meme
     const selectedLine = lines[selectedLineIdx]
 
     const elLineEditor = document.querySelector('.line-editor')
     const elLineEditorOptions = elLineEditor.querySelector('.line-editor-options')
     const LineEditorFont = elLineEditorOptions.querySelector('.line-editor-font')
+    const elLineEditorTextInput = elLineEditor.querySelector('.line-text-edit')
 
     if (isReset) {
         LineEditorFont.selectedIndex = 0
         elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
+        elLineEditorTextInput.value = ''
 
     } else {
         const options = [...LineEditorFont.options]
@@ -178,6 +200,7 @@ function renderLineEditor(isReset) {
 
         elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
         elLineEditorOptions.querySelector(`.align-${selectedLine.texAlignment}`).classList.add('selected')
+
     }
 }
 
@@ -215,7 +238,6 @@ function onCloseEditor(ev) {
     removeEditorListeners()
     openGallery()
 
-    saveMeme()
     gElMemeCanvas.width = 300
     gElMemeCanvas.height = 150
 
@@ -332,9 +354,9 @@ function onUp() {
 
 function onChangeFontFamily(elFontSelection) {
     const meme = getSelectedMeme()
-    const { selectedLine } = meme
+    const { selectedLineIdx } = meme
 
-    if (selectedLine === null) return
+    if (selectedLineIdx === null) return
 
     const selectedFont = elFontSelection.value
     setLineFontFamily(selectedFont)
