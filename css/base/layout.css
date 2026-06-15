@@ -90,7 +90,7 @@ aside .download-btn {
     align-items: center;
     row-gap: 1.875em;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: min-content min-content;
+    grid-template-rows: min-content min-content min-content;
 }
 
 .editor-tools-layout .editor-actions {

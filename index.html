@@ -15,8 +15,9 @@
         <nav class="main-nav hidden">
             <ul class="clean-list ">
                 <li><button class="nav-btn open-memes clean-btn" onclick="onOpenMemesSection()">Memes</button></li>
-                <li><button class="nav-btn open-gallery clean-btn selected" onclick="onOpenGallery()">Gallery</button></li>
-                <li><button class="nav-btn open-about clean-btn" >About</button></li>
+                <li><button class="nav-btn open-gallery clean-btn selected" onclick="onOpenGallery()">Gallery</button>
+                </li>
+                <li><button class="nav-btn open-about clean-btn">About</button></li>
             </ul>
         </nav>
         <button class="open-nav-btn position-absolute"> <i class="fa-solid fa-align-justify"></i></button>
@@ -38,7 +39,7 @@
 
             <!-- <div onmousemove="onHighlightLine(event)" class="canvas-container"> -->
             <div class="canvas-container">
-                <canvas onmouseup="onUp(event)" onmousemove = "onCanvasHover(event)"></canvas>
+                <canvas onmouseup="onUp(event)" onmousemove="onCanvasHover(event)"></canvas>
             </div>
 
             <aside class="editor-aside-layout position-relative">
@@ -46,13 +47,16 @@
                         class="fa-solid fa-caret-left"></i></button>
                 <section class="editor-tools editor-tools-layout">
                     <h2>Edit Text Line</h2>
-                    
+
                     <div class="editor-actions">
-                        <button class="line-action-btn line-switch-btn tool tools-add-line" onclick="onSwitchLine(event)"><span class="first">1</span> <span> / </span> <span class="second">2</span></button>
-                        <button class="line-action-btn line-move-btn tool tools-add-line" ><span>&rlhar;</span> </button>
+                        <button class="line-action-btn line-switch-btn tool tools-add-line"
+                            onclick="onSwitchLine(event)"><span class="first">1</span> <span> / </span> <span
+                                class="second">2</span></button>
+                        <button class="line-action-btn line-move-btn tool tools-add-line"><span>&rlhar;</span> </button>
                         <button class="line-action-btn line-add-btn tool tools-add-line" onclick="onAddLine(event)"><i
                                 class="fa-regular fa-square-plus"></i></button>
-                        <button class="line-action-btn line-delete-btn tool tools-delete-line" onclick="onDeleteLine()"><i class="fa-regular fa-trash-can"></i></button>
+                        <button class="line-action-btn line-delete-btn tool tools-delete-line"
+                            onclick="onDeleteLine()"><i class="fa-regular fa-trash-can"></i></button>
                     </div>
 
                     <fieldset class="line-editor">
@@ -112,8 +116,22 @@
                             </div>
                         </div>
 
-                    </fieldset>
 
+                    </fieldset>
+                    <fieldset class="emojis">
+                        <button onclick="onAddSticker(this)">🔥</button>
+                        <button onclick="onAddSticker(this)">⭐</button>
+                        <button onclick="onAddSticker(this)">❤️</button>
+                        <button onclick="onAddSticker(this)">😂</button>
+                        <button onclick="onAddSticker(this)">😎</button>
+                        <button onclick="onAddSticker(this)">🚀</button>
+                        <button onclick="onAddSticker(this)">🎉</button>
+                        <button onclick="onAddSticker(this)">💀</button>
+                        <button onclick="onAddSticker(this)">👏</button>
+                        <button onclick="onAddSticker(this)">💯</button>
+                        <button onclick="onAddSticker(this)">👀</button>
+                        <button onclick="onAddSticker(this)">🤔</button>
+                    </fieldset>
                 </section>
                 <div class="export-buttons">
                     <a href="#" class="export-btn download-btn" onclick="onDownloadMeme(this,event)"

@@ -220,9 +220,8 @@ function onCanvasHover(ev) {
     lines.forEach((line, lineIdx) => {
         const lineWidth = gMemeCtx.measureText(line.txt).width * scale
         if (isLineHovered(mousePos, lineIdx, lineWidth)) {
-            setLineHovered(lineIdx, true)
             document.body.style.cursor = 'grab'
-            console.log('hi')
+            setLineHovered(lineIdx, true)
         }
         else {
             setLineHovered(lineIdx, false)
@@ -361,4 +360,9 @@ function onChangeFontFamily(elFontSelection) {
     const selectedFont = elFontSelection.value
     setLineFontFamily(selectedFont)
     renderMeme()
+}
+
+function onAddSticker(elStickerBtn) {
+    onAddLine()
+    setLineTxt(elStickerBtn.innerText)
 }

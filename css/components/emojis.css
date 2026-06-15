@@ -1,0 +1,19 @@
+.emojis{
+    padding:0;
+    /* height: 302px; */
+    grid-column:1/3;
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    grid-template-rows: 1fr 1fr;
+    grid-auto-flow: column;
+}   
+
+.emojis>*{
+    font-size: 3rem;
+    transition: 200ms ease;
+}
+
+.emojis>*:hover{
+    opacity: 0.5;
+}

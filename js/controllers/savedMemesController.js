@@ -1,4 +1,6 @@
 'use strict'
+function initMemes() {
+}
 
 function onOpenMemesSection() {
     setSelectedMemeIdx()
@@ -6,6 +8,8 @@ function onOpenMemesSection() {
     gElMemeCanvas.height = 150
 
     gScale = 1
+    loadMemesFromStorage()
+
     // Switch between sections
     document.querySelector('.editor').classList.add('hidden')
     document.querySelector('.gallery').classList.add('hidden')
@@ -31,6 +35,7 @@ function renderSavedMemes() {
 }
 
 function onMemeSelect(memeId) {
+
     setSelectedMemeIdx(memeId)
     showEditor(gCurrMemeID)
 }

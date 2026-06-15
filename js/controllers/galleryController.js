@@ -30,6 +30,7 @@ var gInitCanvasWidth
 var gScale = 1
 
 function initGallery() {
+    loadMemesFromStorage()
     gScale = 1
     gElMemeCanvas = document.querySelector('canvas')
     gMemeCtx = gElMemeCanvas.getContext('2d')

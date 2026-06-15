@@ -9,9 +9,9 @@ const InitTxt = 'This is a meme text'
 const InitColor = 'white'
 const InitFontFamily = 'Impact'
 const InitTexAlignment = 'center'
-_loadMemes()
+loadMemesFromStorage()
 
-function _loadMemes() {
+function loadMemesFromStorage() {
     gMemes = loadFromStorage(STORAGE_KEY)
 
     if (!gMemes || gMemes.length === 0) {
@@ -47,14 +47,12 @@ function createMeme() {
     gMemes.memeList.push(meme)
     gMemes.selectedMemeIdx = gMemes.memeList.length - 1
 
-    _saveMemes()
+    // _saveMemes()
 }
 
 function setSelectedMemeIdx(memeId) {
     if (!memeId) gMemes.selectedMemeIdx = null
     else gMemes.selectedMemeIdx = gMemes.memeList.findIndex(meme => meme.id === memeId)
-    console.log(getSelectedMeme())
-
 }
 
 function getMemes() {
@@ -80,9 +78,8 @@ function setSelectedMeme(memeId) {
 
 function setLineTxt(text) {
     const meme = getSelectedMeme()
-    console.log(meme)
     meme.lines[meme.selectedLineIdx].txt = text
-    _saveMemes()
+    // _saveMemes()
 }
 
 function setLineFontFamily(family) {
@@ -125,7 +122,7 @@ function addLine() {
 
     const pos = { x: 150, y: 100 }
     meme.lines.push(_createLine(InitTxt, InitSize, InitColor, InitFontFamily, InitTexAlignment, pos))
-    _saveMemes()
+    // _saveMemes()
 }
 
 function _createLine(txt, size, color, fontFamily, texAlignment, pos) {
