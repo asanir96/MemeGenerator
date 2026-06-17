@@ -13,7 +13,9 @@ function addEventListeners() {
 }
 
 function addEditorListeners() {
-    window.addEventListener("resize", () => renderMeme(true))
+    window.addEventListener("resize", () => {
+        renderMeme(true)
+    })
 
     const elEditor = document.querySelector('.editor')
     elEditor.addEventListener('mousedown', onEditorDown, true)

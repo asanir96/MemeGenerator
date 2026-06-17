@@ -26,7 +26,7 @@ var gImgs = [
     { id: 24, url: 'images/meme-imgs-various-ratios/putin.jpg', keywords: ['funny', 'putin'] },
     { id: 25, url: 'images/meme-imgs-various-ratios/X-Everywhere.jpg', keywords: ['funny', 'toy story'] },
 ]
-var gInitCanvasWidth
+var gInitCanvasWidth =300
 var gScale = 1
 
 function initGallery() {
@@ -46,7 +46,7 @@ function initGallery() {
 
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
-    gScale = elContainer.clientWidth / gElMemeCanvas.width
+    gScale = elContainer.clientWidth / gInitCanvasWidth
 
     gElMemeCanvas.width = elContainer.clientWidth
     gElMemeCanvas.height = elContainer.clientHeight
