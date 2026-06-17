@@ -16,14 +16,18 @@ function InitEditor() {
     // addEditorListeners()
 }
 
-function renderMeme(ev) {
+function renderMeme(isResize) {
     const meme = getSelectedMeme()
     const img = new Image()
 
     img.onload = () => {
+        if (isResize) resizeCanvas()
+
         renderImg(img)
+
         gMemeCtx.scale(gScale, gScale)
         setMemeScale(gScale)
+
         renderLines(meme)
     }
 
@@ -59,6 +63,7 @@ function renderLine(line, isHovered, isSelected, scale) {
     gMemeCtx.textBaseline = "middle";
 
     const metrics = gMemeCtx.measureText(line.txt);
+    console.log('metrics.width',metrics.width)
     const textWidth = metrics.width;
 
     gMemeCtx.strokeStyle = 'black'
@@ -146,7 +151,7 @@ function onChangeFontSize(ev, direction) {
     if (selectedLineIdx === null) return
 
     changeFontSize(direction)
-    renderMeme(ev)
+    renderMeme()
 }
 
 function onSwitchLine(ev) {
@@ -160,7 +165,7 @@ function onSwitchLine(ev) {
     switchLines(selectedLineIdx)
     document.querySelector('.download-btn').classList.add('disabled')
     document.querySelector('.save-btn').classList.add('disabled')
-    renderMeme(ev)
+    renderMeme()
     clearTextEdit()
 }
 
@@ -175,7 +180,7 @@ function onAddLine(ev) {
 
     addLine()
     switchLines(lines.length - 1)
-    renderMeme(ev)
+    renderMeme()
 }
 
 function renderLineEditor(isReset) {
@@ -192,9 +197,10 @@ function renderLineEditor(isReset) {
     if (isReset) {
         LineEditorFont.selectedIndex = 0
         elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
-        elLineEditorTextInput.value = ''
+        
 
     } else {
+        elLineEditorTextInput.value = ''
         const options = [...LineEditorFont.options]
         LineEditorFont.selectedIndex = options.findIndex(option => option.value === selectedLine.fontFamily)
 
@@ -234,7 +240,6 @@ function onCanvasHover(ev) {
 
 function onCloseEditor(ev) {
     ev.stopPropagation()
-    removeEditorListeners()
     openGallery()
 
     gElMemeCanvas.width = 300
@@ -326,6 +331,7 @@ function onMove(ev) {
     const { isDrag } = lines[selectedLineIdx]
 
     if (!isDrag) return
+    console.log('did not return')
 
     const { offsetX, offsetY } = ev
     const pos = { x: offsetX, y: offsetY }
@@ -346,7 +352,8 @@ function onMove(ev) {
 function onUp() {
     const meme = getSelectedMeme()
     if (meme.selectedLineIdx === null) return
-
+    
+    console.log('stop grabbing')
     setLineDrag(false)
     document.body.style.cursor = 'grab'
 }
@@ -365,4 +372,13 @@ function onChangeFontFamily(elFontSelection) {
 function onAddSticker(elStickerBtn) {
     onAddLine()
     setLineTxt(elStickerBtn.innerText)
+}
+
+function disableEdit() {
+    setLineSelected(null)
+    renderLineEditor(true)
+
+    document.querySelectorAll('.export-btn').forEach(btn => btn.classList.remove('disabled'))
+
+    renderMeme()
 }

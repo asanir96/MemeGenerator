@@ -61,10 +61,10 @@
 
                     <fieldset class="line-editor">
 
-                        <input class="tool line-text-edit" type="text" placeholder="This is the meme text ">
+                        <input class="text-control tool line-text-edit" type="text" placeholder="This is the meme text ">
 
                         <div class="line-editor-options">
-                            <select class="line-editor-font" oninput="onChangeFontFamily(this)" name="" id="">
+                            <select class="text-control line-editor-font" oninput="onChangeFontFamily(this)" name="" id="">
                                 <option value="Impact" selected>Impact</option>
                                 <option value="Arial Black">Arial Black</option>
                                 <option value="Comic Sans MS">Comic Sans MS</option>
@@ -78,38 +78,38 @@
                             </select>
                             <div class="line-editor-style">
 
-                                <button class="tool line-style-btn clean-btn position-relative"
+                                <button class="text-control  line-style-btn clean-btn position-relative"
                                     onclick="onChangeFontSize(event,1)">
                                     a
                                     <i class="fa-solid fa-plus line-style-btn-dir"></i>
                                 </button>
-                                <button class="tool line-style-btn clean-btn position-relative"
+                                <button class="text-control  line-style-btn clean-btn position-relative"
                                     onclick="onChangeFontSize(event,-1)">
                                     a
                                     <i class=" fa-solid fa-minus  line-style-btn-dir"></i>
                                 </button>
                                 <button
-                                    class="alignment-btn align-left  tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
+                                    class="text-control alignment-btn align-left  tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
                                     onclick="onAlignText('left',this)">
                                     <i class="fa-solid fa-align-left"></i>
                                 </button>
                                 <button
-                                    class="alignment-btn align-center selected tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
+                                    class="text-control alignment-btn align-center selected tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
                                     onclick="onAlignText('center',this)">
                                     <i class="fa-solid fa-align-justify"></i>
                                 </button>
                                 <button
-                                    class="alignment-btn align-right  tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
+                                    class="text-control alignment-btn align-right  tool line-style-btn clean-btn position-relative line-editor-text-align-btn.css"
                                     onclick="onAlignText('right',this)">
                                     <i class="fa-solid fa-align-right"></i>
                                 </button>
-                                <button class="tool line-style-btn clean-btn position-relative"
+                                <button class="text-control  line-style-btn clean-btn position-relative"
                                     onclick="onChangeFontSize(event,-1)">
                                     a
                                     <i class="fa-solid fa-minus  line-style-btn-dir"></i>
                                 </button>
 
-                                <button class="tool line-style-btn clean-btn position-relative"
+                                <button class="text-control  line-style-btn clean-btn position-relative"
                                     onclick="onChangeFontSize(event,-1)">
                                     <i class="fa-solid fa-pencil"></i>
                                 </button>

@@ -13,120 +13,47 @@ function addEventListeners() {
 }
 
 function addEditorListeners() {
+    window.addEventListener("resize", () => renderMeme(true))
+
     const elEditor = document.querySelector('.editor')
-    const elLineEditor = elEditor.querySelector('.line-editor')
-    const elEditorActions = elEditor.querySelector('.editor-actions')
-
-    addClickHandler()
-
-    elLineEditor.addEventListener('mouseleave', addClickHandler)
-    elEditorActions.addEventListener('mouseleave', addClickHandler)
-
-    elLineEditor.addEventListener('mouseover', removeClickHandler)
-    elEditorActions.addEventListener('mouseover', removeClickHandler)
-
-
-    document.querySelector('.line-text-edit').addEventListener('focus', (e) => {
-        document.querySelector('.download-btn').classList.add('disabled')
-        gIsEditMode = true
-        renderMeme(e)
-    })
+    elEditor.addEventListener('mousedown', onEditorDown, true)
 
     document.querySelector('.line-text-edit').addEventListener('input', onTextInput)
     document.querySelector('.line-text-edit').addEventListener('focus', onTextClick)
 
-    gElMemeCanvas.addEventListener('mousedown', (e) => onDown(e))
-    document.querySelector('.line-text-edit').addEventListener('blur', disableEdit)
-
-    gElMemeCanvas.addEventListener('mousemove', (e) => {
-
-        gHoveredLineIdx = -1
-        elEditor.removeEventListener('click', onStopEdit)
-        document.querySelector('.line-text-edit').removeEventListener('blur', disableEdit)
-    }
-    )
-
-    gElMemeCanvas.addEventListener('mouseleave', addClickHandler)
-
 }
 
-function onRemoveListeners() {
-    document.querySelector('.line-text-edit').removeEventListener('blur', disableEdit)
-    document.querySelector('.editor').removeEventListener('click', onStopEdit)
-}
-
-function removeClickHandler(ev) {
-
-    const child = ev.target.closest('button, input,select')
-    if (!child) return
-
-    document.querySelector('.line-text-edit').removeEventListener('blur', disableEdit)
-    document.querySelector('.editor').removeEventListener('click', onStopEdit)
-}
-
-function addClickHandler() {
-    document.querySelector('.line-text-edit').addEventListener('blur', disableEdit)
-    document.querySelector('.editor').addEventListener('click', onStopEdit)
-
-}
-
-function onStopEdit() {
+function onEditorDown(ev) {
     const meme = getSelectedMeme()
     const { selectedLineIdx } = meme
 
-    document.querySelectorAll('.export-btn').forEach(btn => btn.classList.remove('disabled'))
-    document.querySelector('.download-btn').classList.remove('disabled')
-    setLineSelected(null)
-    renderLineEditor(true)
-    renderMeme()
-    clearTextEdit()
-}
+    const elClickTarget = ev.target
 
-function disableEdit() {
-    document.querySelector('.download-btn').classList.add('disabled')
-    gIsEditMode = false
-    renderMeme()
-    clearTextEdit()
-}
+    if (elClickTarget.closest('.canvas-container')) {
+        onDown(ev)
+        return
+    }
 
-function removeEditorListeners() {
-    const elEditor = document.querySelector('.editor')
-    const elLineEditor = elEditor.querySelector('.line-editor')
-    const elEditorActions = elEditor.querySelector('.editor-actions')
-    const elBackBtn = elEditor.querySelector('.editor-back-btn')
+    if (elClickTarget.closest('.download-btn')) {
+        const elDownloadBtn = document.querySelector('.download-btn')
+        onDownloadMeme(elDownloadBtn, ev)
+        return
+    }
 
-    elEditor.removeEventListener('click', onStopEdit)
+    if ((!elClickTarget.closest('.line-action-btn') &&
+        !elClickTarget.closest('.text-control'))) {
+        console.log(elClickTarget.closest('.text-control'))
+        disableEdit()
+        renderLineEditor(true)
+        return
+    }
 
-    elLineEditor.removeEventListener('mouseleave', addClickHandler)
-    elLineEditor.removeEventListener('mouseover', removeClickHandler)
+    if (elClickTarget.closest('.line-text-edit')) {
+        return
+    }
 
-    elEditorActions.removeEventListener('mouseleave', addClickHandler)
-    elEditorActions.removeEventListener('mouseover', removeClickHandler)
-
-    elBackBtn.removeEventListener('mouseleave', addClickHandler)
-    elBackBtn.removeEventListener('mouseenter', removeClickHandler)
-}
-
-function getEvPos(ev) {
-    // Check if it is a touch event
-    if (TOUCH_EVENTS.includes(ev.type)) {
-        ev.preventDefault() // Stop double-firing mouse fallback events
-
-        const touch = ev.targetTouches[0]
-
-        // Get the absolute position of the canvas on the screen
-        const rect = gElCanvas.getBoundingClientRect()
-
-        // Subtract canvas screen coordinates from touch screen coordinates
-        return {
-            x: touch.clientX - rect.left,
-            y: touch.clientY - rect.top,
-        }
-    } else {
-        // Desktop mouse tracking stays lightweight
-        return {
-            x: ev.offsetX,
-            y: ev.offsetY,
-        }
+    if (elClickTarget.closest('.editor-back-btn')) {
+        onCloseEditor(ev)
+        return
     }
 }

@@ -77,25 +77,8 @@ function showEditor() {
     document.querySelector('.memes').classList.add('hidden')
     document.querySelector('.editor').classList.remove('hidden')
 
-    // if (memeId) {
-    //     setSelectedMeme(memeId)
-    //     const meme = getSelectedMeme()
-    //     console.log(meme)
-    // }
-
-    const meme = getSelectedMeme()
-    const img = new Image()
-    img.onload = () => {
-        resizeCanvas()
-        renderImg(img)
-
-        gMemeCtx.scale(gScale, gScale)
-        setMemeScale(gScale)
-
-        renderLines(meme)
-    }
     renderLineEditor(true)
-    img.src = gImgs.find(img => img.id === meme.selectedImgId).url
+    renderMeme(true)
 }
 
 function onOpenGallery() {

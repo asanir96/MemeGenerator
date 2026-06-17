@@ -208,9 +208,14 @@ function setMemeScale(scale) {
 }
 
 function setLineDrag(bool) {
+    console.log('bool',bool)
+    console.log('setting Line Drag false')
     const meme = getSelectedMeme()
+    console.log('meme',meme)
     const { selectedLineIdx } = meme
+    console.log('selectedLineIdx',selectedLineIdx)
     meme.lines[selectedLineIdx].isDrag = bool
+    console.log(' meme.lines[selectedLineIdx].isDrag', meme.lines[selectedLineIdx].isDrag)
 }
 
 function moveLine(dx, dy) {
