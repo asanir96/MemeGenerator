@@ -128,9 +128,9 @@ function onTextClick(ev) {
 }
 function onDownloadMeme(elLink, ev) {
     const meme = getSelectedMeme()
-    const { selectedLine } = meme
+    const { selectedLineIdx } = meme
 
-    if (selectedLine !== null) {
+    if (selectedLineIdx !== null) {
         ev.preventDefault()
         return
     }
