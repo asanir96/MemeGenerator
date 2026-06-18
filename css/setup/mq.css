@@ -79,7 +79,7 @@
     .main-nav.hidden {
         position: fixed;
 
-        /* transform: translateX(100%); */
+        transform: translateX(100%);
         grid-column: 2;
 
         display: grid;

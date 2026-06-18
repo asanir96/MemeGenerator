@@ -45,6 +45,8 @@ aside .download-btn {
 
 .export-buttons {
     display: grid;
+    align-items: center;
+    align-content: center;
 }
 
 .gallery,

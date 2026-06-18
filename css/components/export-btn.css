@@ -1,7 +1,6 @@
 .export-btn {
     grid-column: 2;
     opacity: 1;
-    align-self: end;
     width: fit-content;
     
     padding-inline: 1.94444444444em;
@@ -20,4 +19,8 @@
     background-color: grey;
     opacity: 0.2;
     cursor: not-allowed;
+}
+
+.save-btn{
+    justify-self: end;
 }
