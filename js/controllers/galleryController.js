@@ -43,7 +43,6 @@ function initGallery() {
     addEditorListeners()
 }
 
-
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gScale = elContainer.clientWidth / gInitCanvasWidth
@@ -51,7 +50,6 @@ function resizeCanvas() {
     gElMemeCanvas.width = elContainer.clientWidth
     gElMemeCanvas.height = elContainer.clientHeight
 }
-
 
 function renderGallery() {
     const elGallery = document.querySelector('.gallery-container')

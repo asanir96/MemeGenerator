@@ -61,8 +61,9 @@ aside .download-btn {
 }
 
 .main-nav>ul {
-    display: grid;
     justify-self: end;
+
+    display: grid;
     grid-template-columns: repeat(3, min-content);
     grid-auto-columns: min-content;
     grid-auto-flow: column;

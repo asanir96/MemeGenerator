@@ -14,13 +14,13 @@
         <div class="logo"><img src="images/logo/aeae63780efb67018fae1f37db1aa4731bc681a9.png" alt=""></div>
         <nav class="main-nav hidden">
             <ul class="clean-list ">
-                <li><button class="nav-btn open-memes clean-btn" onclick="onOpenMemesSection()">Memes</button></li>
-                <li><button class="nav-btn open-gallery clean-btn selected" onclick="onOpenGallery()">Gallery</button>
+                <li class="position-relative"><button class="nav-btn open-memes clean-btn" onclick="onOpenSection('memes')">Memes</button></li>
+                <li class="position-relative"><button class="nav-btn open-gallery clean-btn selected" onclick="onOpenSection('gallery')">Gallery</button>
                 </li>
-                <li><button class="nav-btn open-about clean-btn">About</button></li>
+                <li class="position-relative"><button class="nav-btn open-about clean-btn">About</button></li>
             </ul>
         </nav>
-        <button class="open-nav-btn position-absolute"> <i class="fa-solid fa-align-justify"></i></button>
+        <button class="open-nav-btn position-absolute" onclick="onShowNav(event)"> <i class="fa-solid fa-align-justify"></i></button>
     </header>
 
     <main class="subgrid">

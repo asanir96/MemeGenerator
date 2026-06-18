@@ -131,6 +131,7 @@ function onTextClick(ev) {
         renderMeme()
     }
 }
+
 function onDownloadMeme(elLink, ev) {
     const meme = getSelectedMeme()
     const { selectedLineIdx } = meme
@@ -292,7 +293,6 @@ function saveMeme() {
     setMemeData(data)
     gMemeCtx.scale(gScale, gScale)
 }
-
 
 function onDown(ev) {
 
