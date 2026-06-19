@@ -1,0 +1,45 @@
+.snackbar {
+    display: none;
+
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: center;
+    gap: 0.7rem;
+    
+    position: fixed;
+    transform: translate(50%);
+    bottom: 5px;
+    right: 50%;
+
+    z-index: 20;
+    
+    visibility: hidden;
+    opacity: 0;
+
+    border-bottom: 3px solid rgb(97, 133, 97);
+    border-radius: 5px;
+    padding-block: 0.5rem;
+    padding-inline-end: 3rem;
+    padding-inline-start: 0.5rem;
+    background-color: rgb(209, 234, 209);
+    color: black;
+
+    font-size: 0.8rem;
+    transition: 200ms ease;
+}
+
+.snackbar.visible {
+
+    visibility: visible;
+    opacity: 1;
+}
+
+.checkmark-icon {
+    text-align: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    color: white;
+    background-color: green;
+    border-radius: 50%;
+}

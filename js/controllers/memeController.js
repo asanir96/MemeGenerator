@@ -4,6 +4,8 @@
 var gElMemeCanvas
 var gCurrMemeID
 var gMousePos
+var gSnackbarClassTimeout
+var gSnackbarDisplayTimeout
 var gMemeCtx
 var gLinPos = { x: 20, y: 20 }
 var gLineIdx
@@ -63,7 +65,7 @@ function renderLine(line, isHovered, isSelected, scale) {
     gMemeCtx.textBaseline = "middle";
 
     const metrics = gMemeCtx.measureText(line.txt);
-    console.log('metrics.width',metrics.width)
+    console.log('metrics.width', metrics.width)
     const textWidth = metrics.width;
 
     gMemeCtx.strokeStyle = 'black'
@@ -198,7 +200,7 @@ function renderLineEditor(isReset) {
     if (isReset) {
         LineEditorFont.selectedIndex = 0
         elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
-        
+
         const elTextControls = [...elLineEditor.querySelectorAll('.text-control')]
 
 
@@ -300,8 +302,20 @@ function saveMeme() {
     var data = gElMemeCanvas.toDataURL('image/jpeg', 0.5)
 
     setMemeData(data)
+    showSnackbar()
     gMemeCtx.scale(gScale, gScale)
 }
+
+function showSnackbar() {
+    const elSnackbar = document.querySelector('.snackbar')
+
+    elSnackbar.style.display = 'grid'
+    elSnackbar.classList.add('visible')
+
+    gSnackbarClassTimeout = setTimeout(() => elSnackbar.classList.remove('visible'), 3000)
+    gSnackbarDisplayTimeout = setTimeout(() => elSnackbar.style.display = 'none', 3500)
+}
+
 
 function onDown(ev) {
 
@@ -361,7 +375,7 @@ function onMove(ev) {
 function onUp() {
     const meme = getSelectedMeme()
     if (meme.selectedLineIdx === null) return
-    
+
     console.log('stop grabbing')
     setLineDrag(false)
     document.body.style.cursor = 'grab'
