@@ -4,13 +4,55 @@
     column-count: auto;
 }
 
-.memes>img {
-    width: 100%;
+.memes>.saved-meme {
     margin-block-end: 20px;
+
+}
+
+.memes img {
+    width: 100%;
+    /* margin-block-end: 20px; */
     border-radius: 15px;
 }
 
-.memes>img:hover{
-    opacity: 70%;
-    cursor: pointer;
+.memes img:hover {
+    /* opacity: 70%; */
+    /* cursor: pointer; */
+}
+
+.saved-meme:hover .saved-meme-action-btn {
+    display: grid;
+}
+
+.memes .saved-meme-action-btn:hover {
+    /* cursor: pointer; */
+    border: 2px var(---clr-txt-base) solid;
+
+}
+
+.memes .saved-meme-action-btn {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    right: 5px;
+
+    height: 2rem;
+    width: 2rem;
+
+    border-radius: 50%;
+    border: 2px white solid;
+    /* background-color: white; */
+    color: white;
+
+    justify-content: center;
+    align-content: center;
+    top: 10px;
+}
+
+.memes .edit-meme {
+    right: 10px;
+}
+
+.memes .delete-meme {
+    left: 10px;
 }

@@ -14,13 +14,16 @@
         <div class="logo"><img src="images/logo/aeae63780efb67018fae1f37db1aa4731bc681a9.png" alt=""></div>
         <nav class="main-nav hidden">
             <ul class="clean-list ">
-                <li class="position-relative"><button class="nav-btn open-memes clean-btn" onclick="onOpenSection('memes')">Memes</button></li>
-                <li class="position-relative"><button class="nav-btn open-gallery clean-btn selected" onclick="onOpenSection('gallery')">Gallery</button>
+                <li class="position-relative"><button class="nav-btn open-memes clean-btn"
+                        onclick="onOpenSection('memes')">Memes</button></li>
+                <li class="position-relative"><button class="nav-btn open-gallery clean-btn selected"
+                        onclick="onOpenSection('gallery')">Gallery</button>
                 </li>
                 <li class="position-relative"><button class="nav-btn open-about clean-btn">About</button></li>
             </ul>
         </nav>
-        <button class="open-nav-btn position-absolute" onclick="onShowNav(event)"> <i class="fa-solid fa-align-justify"></i></button>
+        <button class="open-nav-btn position-absolute" onclick="onShowNav(event)"> <i
+                class="fa-solid fa-align-justify"></i></button>
     </header>
 
     <main class="subgrid">
@@ -61,10 +64,12 @@
 
                     <fieldset class="line-editor">
 
-                        <input class="text-control tool line-text-edit" type="text" placeholder="This is the meme text ">
+                        <input class="text-control tool line-text-edit" type="text"
+                            placeholder="This is the meme text ">
 
                         <div class="line-editor-options">
-                            <select class="text-control line-editor-font" oninput="onChangeFontFamily(this)" name="" id="">
+                            <select class="text-control line-editor-font" oninput="onChangeFontFamily(this)" name=""
+                                id="">
                                 <option value="Impact" selected>Impact</option>
                                 <option value="Arial Black">Arial Black</option>
                                 <option value="Comic Sans MS">Comic Sans MS</option>
@@ -150,7 +155,9 @@
     <script src="js/controllers/savedMemesController.js"></script>
     <script src="js/app.js"></script>
 
-    <div class="snackbar"><div class="checkmark-icon">&#x2713;</div>Meme saved!</div>
+    <div class="snackbar">
+        <div class="checkmark-icon">&#x2713;</div>Meme saved!
+    </div>
 </body>
 
 </html>

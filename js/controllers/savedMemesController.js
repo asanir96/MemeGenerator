@@ -27,8 +27,15 @@ function renderSavedMemes() {
     document.querySelector('.memes').innerHTML = memes.map(meme => {
         if (meme.dataUrl) {
             return `
-        <img class="saved-meme-img" src="${meme.dataUrl}" alt="" onclick="onMemeSelect('${meme.id}')">
-        `
+        <div class="saved-meme position-relative">
+            <button class="saved-meme-action-btn delete-meme" onclick="onDeleteMeme('${meme.id}')">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="saved-meme-action-btn edit-meme" onclick="onMemeSelect('${meme.id}')">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <img class="saved-meme-img" src="${meme.dataUrl}" alt="" >
+        </div>        `
         }
     }).join('')
         ;
@@ -38,4 +45,10 @@ function onMemeSelect(memeId) {
 
     setSelectedMemeIdx(memeId)
     showEditor(gCurrMemeID)
+}
+
+
+function onDeleteMeme(memeId){
+    deleteMeme(memeId)
+    renderSavedMemes()
 }

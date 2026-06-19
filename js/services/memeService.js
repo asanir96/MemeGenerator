@@ -64,7 +64,12 @@ function getMeme(idx) {
 }
 
 function getMemeById(memeId) {
-    return gMemes.find(meme => meme.id === memeId)
+    if (typeof (memeId) !== 'string') return
+
+    const meme = gMemes.memeList.find(meme => meme.id === memeId)
+
+    if (!meme) return null
+    else return meme
 }
 
 function getMemeByIdx(memeIdx) {
@@ -208,12 +213,12 @@ function setMemeScale(scale) {
 }
 
 function setLineDrag(bool) {
-    console.log('bool',bool)
+    console.log('bool', bool)
     console.log('setting Line Drag false')
     const meme = getSelectedMeme()
-    console.log('meme',meme)
+    console.log('meme', meme)
     const { selectedLineIdx } = meme
-    console.log('selectedLineIdx',selectedLineIdx)
+    console.log('selectedLineIdx', selectedLineIdx)
     meme.lines[selectedLineIdx].isDrag = bool
     console.log(' meme.lines[selectedLineIdx].isDrag', meme.lines[selectedLineIdx].isDrag)
 }
@@ -224,4 +229,15 @@ function moveLine(dx, dy) {
     const { selectedLineIdx, scale } = meme
     meme.lines[selectedLineIdx].pos.x += dx / scale
     meme.lines[selectedLineIdx].pos.y += dy / scale
+}
+
+function deleteMeme(memeId) {
+    if (typeof (memeId) !== 'string') return
+
+    const memeIdx = gMemes.memeList.findIndex(meme => meme.id === memeId)
+
+    if (memeIdx < 0) return
+    else gMemes.memeList.splice(memeIdx, 1)
+
+    _saveMemes()
 }
