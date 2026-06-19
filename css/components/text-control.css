@@ -1,0 +1,10 @@
+.text-control.disabled{
+    opacity: 0.5;
+
+}
+
+.text-control.disabled:hover,
+.text-control.disabled:hover *{
+    color:var(---clr-txt-1);
+    cursor:default;
+}

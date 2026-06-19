@@ -199,6 +199,12 @@ function renderLineEditor(isReset) {
         LineEditorFont.selectedIndex = 0
         elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
         
+        const elTextControls = [...elLineEditor.querySelectorAll('.text-control')]
+
+
+        elTextControls.filter(btn => !btn.classList.contains('line-editor-font', 'line-text-edit'))
+            .forEach(btn => btn.classList.add('disabled'))
+
 
     } else {
         elLineEditorTextInput.value = ''
@@ -207,6 +213,9 @@ function renderLineEditor(isReset) {
 
         elLineEditorOptions.querySelectorAll('.alignment-btn').forEach(btn => btn.classList.remove('selected'))
         elLineEditorOptions.querySelector(`.align-${selectedLine.texAlignment}`).classList.add('selected')
+
+        const elTextControls = [...elLineEditor.querySelectorAll('.text-control')]
+        elLineEditor.querySelectorAll('.text-control').forEach(btn => btn.classList.remove('disabled'))
 
     }
 }
